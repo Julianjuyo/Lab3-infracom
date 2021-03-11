@@ -27,7 +27,7 @@ public class Cliente {
         final String HOST = "localhost";
 
         //Puerto del servidor
-        final int PUERTO = 50000;
+        final int PUERTO =60000;
                 
         DataInputStream in;
         DataOutputStream out;
