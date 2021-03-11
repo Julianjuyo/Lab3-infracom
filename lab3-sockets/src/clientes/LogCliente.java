@@ -1,4 +1,4 @@
-package Cliente;
+package clientes;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;
