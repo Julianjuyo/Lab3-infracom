@@ -1,4 +1,4 @@
-//package servidores;
+package servidores;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -7,36 +7,69 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.security.*;
+import java.math.BigInteger; 
+import java.security.MessageDigest; 
+import java.security.NoSuchAlgorithmException; 
+
 
 public class Servidor {
 
 	private final static String RUTA1="/Users/julianoliveros/100MBcopy.bin";
 	private final static String RUTA2="/Users/julianoliveros/250MBcopy.zip";
 	private static File fichero;
-	
+
 
 	/**
-	 * 
+	 * Convierte en un arreglo de bits un archivo 
 	 * @param file
 	 * @return
-	 */
-	public static byte[] getArray (File file){
-		
-		byte[] byteArray = new byte[1024];
+	 */	
+	public static byte[] getArray(File file){
+		byte[] byteArray = new byte[(int) file.length()];
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			int bytesCount = 0; 
-			fis.read(byteArray);
+			bytesCount = fis.read(byteArray);
 			fis.close();
-			
+			System.out.println("El archivo " + file.getName() + " tiene " + bytesCount +" bytes.");
+
 		} catch (Exception e) {
 			System.out.println("Problemas al convertir el archivo a bytes: "+ e.getMessage());
 		}
 		return byteArray;
 	}
-	
-	
-	
+
+	/**
+	 * Funacion que crea un hash a partir de un archivo 
+	 * @param file
+	 * @return
+	 */
+	public static String getHash(File input) 
+	{ 
+		try { 
+			MessageDigest md = MessageDigest.getInstance("MD5"); 
+
+			byte[] messageDigest = md.digest(getArray(input)); 
+
+			BigInteger no = new BigInteger(1, messageDigest); 
+
+			String hashtext = no.toString(16); 
+			while (hashtext.length() < 32) { 
+				hashtext = "0" + hashtext; 
+			} 
+			return hashtext; 
+		} 
+
+		catch (NoSuchAlgorithmException e) { 
+			throw new RuntimeException(e); 
+		} 
+	} 
+
+
+
+
+
+
 	/**
 	 * Clase que crear un thread por cada peticion
 	 * @author julianoliveros
@@ -47,7 +80,7 @@ public class Servidor {
 		private final Socket clienteSC;
 		private final byte[] arregloBits;
 		private final String log;
-		
+
 
 		public Peticion(Socket sc, byte[] parregloBits,String plog  ) {
 			this.clienteSC=sc;
@@ -59,14 +92,14 @@ public class Servidor {
 		{
 			PrintWriter out = null; 
 			BufferedReader in = null; 
-			
-		    //DataOutputStream outD = null;
-		    //DataInputStream inD = null;
-		    
+
+			//DataOutputStream outD = null;
+			//DataInputStream inD = null;
+
 
 			try { 
-				
-				
+
+
 				// Ecribir a el cliente
 				out = new PrintWriter( clienteSC.getOutputStream(), true); 
 				//outD = new DataOutputStream(clienteSC.getOutputStream());
@@ -74,8 +107,8 @@ public class Servidor {
 				// Leer del cliente 
 				in = new BufferedReader( new InputStreamReader(clienteSC.getInputStream())); 
 				//inD = new DataInputStream(clienteSC.getInputStream());
-				
-				
+
+
 				//TRANSFERENCIA DE ARCHIVOS
 				/*
 			    File file = new File("C:\\test.xml");
@@ -89,20 +122,20 @@ public class Servidor {
 
 			    //out.write(bytes);
 			    System.out.println(bytes);
-				*/
-	
+				 */
+
 				String line; 
 				while ((line = in.readLine()) != null) {
-					
+
 
 					// Escribiendo el mesanje del cliente
 					System.out.printf( " Sent from the client: %s\n", line); 
-					
+
 					out.println(line); 
 				} 
 
-				
-				
+
+
 				clienteSC.close();
 				System.out.println("Cliente desconectado");
 			} 
@@ -127,7 +160,7 @@ public class Servidor {
 	} 
 
 
-	
+
 
 
 
@@ -137,33 +170,33 @@ public class Servidor {
 
 		int numeroDeClientes=0;
 		final int PUERTO =61001;
-		
+
 		String ruta=" ";
 		int numeroConexiones=0;
 
 
 		try {
-			
+
 			boolean CargoDatos=false;
-			
+
 			while(CargoDatos==false) {
-				
+
 				//Seleccionar que archivo quiere enviar
 				Scanner scaner = new Scanner(System.in);
-				
+
 				System.out.println("\n"+"Indique el numero de clientes a los que archivo quiere enviar el archivo \n");
-				
-				numeroConexiones = Integer.parseInt(scaner.nextLine());
-				
+
+				numeroConexiones = 25;//Integer.parseInt(scaner.nextLine());
+
 				System.out.println(
 						"Indique que archivo quiere enviar (ESCRIBA EL NUMERO 1,2,3) \n"+
 								"1: archivo de 100 MB \n"+
 								"2: Archivo de 250 MB \n"+
 								"3: Otro (pasar ruta por parametro) \n"
 						);
-				
-				String Archivo = scaner.nextLine();
-				
+
+				String Archivo = "1" ;//scaner.nextLine();
+
 				//Transferir archivo de 100MB
 				if(Archivo.equals("1")) {
 					ruta= RUTA1;
@@ -173,10 +206,10 @@ public class Servidor {
 						System.out.println("Se cargo el archivo correctamente \n");
 					}			
 				}
-				
+
 				//Transferir archivo de 250MB
-				else if(Archivo.equals("1")) {
-					ruta= RUTA1;
+				else if(Archivo.equals("2")) {
+					ruta= RUTA2;
 					fichero = new File(ruta);
 					if(fichero.exists()) { 
 						CargoDatos=true;
@@ -190,7 +223,7 @@ public class Servidor {
 						System.out.println("Escriba la ruta del archivo \n");
 						ruta = scaner.nextLine();
 						fichero = new File(ruta);
-						
+
 						if(fichero.exists()) { 
 							CargoDatos=true;
 							c=false;
@@ -202,8 +235,8 @@ public class Servidor {
 					}
 				}
 			}
-			
-			
+
+
 			//Creamos el socket del servidor
 			servidor = new ServerSocket(PUERTO);
 
@@ -211,22 +244,26 @@ public class Servidor {
 			servidor.setReuseAddress(true);
 			System.out.println("---------------- \n" +"Servidor iniciado \n");
 
-			
-			
-			
+
+
+
 			//se crea log
-			
+
 			//Realizar hash 
-			
+
 			//arreglo de bits 
+
+			byte[] arregloBits = getArray(fichero);
+
+			String hash = getHash(fichero);
 			
-			 byte[] arregloBits = getArray(fichero);
-			 
-			
+	
+
+
 			//Siempre estara escuchando peticiones
-			
-			
-			while (numeroDeClientes < numeroConexiones) {
+
+
+			while (numeroDeClientes <= numeroConexiones) {
 
 
 				//Espero a que un cliente se conecte
@@ -240,14 +277,14 @@ public class Servidor {
 				numeroDeClientes++;
 
 			}
-			
-			
 
-			
-			
+
+
+
+
 			//imprime log
-			
-			
+
+
 		}
 		catch (IOException ex)
 		{

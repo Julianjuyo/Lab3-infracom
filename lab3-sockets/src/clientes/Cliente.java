@@ -1,4 +1,4 @@
-//package clientes;
+package clientes;
 
 
 import java.io.BufferedReader;
@@ -21,37 +21,33 @@ import java.util.logging.Logger;
 public class Cliente {
 	
 	
-	private static String getFileChecksum(MessageDigest digest, File file) throws IOException
-	{
-	    //Get file input stream for reading the file content
-	    FileInputStream fis = new FileInputStream(file);
-	     
-	    //Create byte array to read data in chunks
-	    byte[] byteArray = new byte[1024];
-	    int bytesCount = 0; 
-	      
-	    //Read file data and update in message digest
-	    while ((bytesCount = fis.read(byteArray)) != -1) {
-	        digest.update(byteArray, 0, bytesCount);
-	    };
-	     
-	    //close the stream; We don't need it now.
-	    fis.close();
-	     
-	    //Get the hash's bytes
-	    byte[] bytes = digest.digest();
-	     
-	    //This bytes[] has bytes in decimal format;
-	    //Convert it to hexadecimal format
-	    StringBuilder sb = new StringBuilder();
-	    for(int i=0; i< bytes.length ;i++)
-	    {
-	        sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-	    }
-	     
-	    //return complete hash
-	   return sb.toString();
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public String getHash(File file){
+		String r="";
+		MessageDigest md5 = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			DigestInputStream dis = new DigestInputStream(fis, md5);
+			r=dis.toString(); 
+			fis.close();
+			System.out.println("El hash de confirmación md5 del archivo " + file.getName() + "es: /n " + r);
+			
+		} catch (Exception e) {
+			System.out.println("Problemas al convertir el archivo a hash md5: "+ e.getMessage());
+		}
+		return  r;
 	}
+	
 	
 
 	public static void main(String[] args) {
