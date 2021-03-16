@@ -80,12 +80,14 @@ public class Servidor {
 		private final Socket clienteSC;
 		private final byte[] arregloBits;
 		private final String log;
+		private final long tamano;
 
 
-		public Peticion(Socket sc, byte[] parregloBits,String plog  ) {
-			this.clienteSC=sc;
+		public Peticion(Socket sc, byte[] parregloBits,String plog,long ptamano  ) {
+			this.clienteSC= sc;
 			this.arregloBits= parregloBits;
-			this.log=plog;
+			this.log= plog;
+			this.tamano= ptamano;
 		}
 
 		public void run() 
@@ -249,9 +251,7 @@ public class Servidor {
 
 			//se crea log
 
-			//Realizar hash 
-
-			//arreglo de bits 
+			long tamano = fichero.length();
 
 			byte[] arregloBits = getArray(fichero);
 
@@ -271,7 +271,7 @@ public class Servidor {
 
 				System.out.println("Cliente conectado"+ clienteSC.getInetAddress().getHostAddress());
 
-				Peticion threadCliente = new Peticion(clienteSC,arregloBits,"aa"); //hash tambien envio, log 
+				Peticion threadCliente = new Peticion(clienteSC,arregloBits,hash,tamano); //hash tambien envio, log 
 				threadCliente.start();
 
 				numeroDeClientes++;
