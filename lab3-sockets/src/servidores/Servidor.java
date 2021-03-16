@@ -1,4 +1,4 @@
-package servidores;
+//package servidores;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -18,6 +18,9 @@ public class Servidor {
 	private final static String RUTA2="/Users/julianoliveros/250MBcopy.zip";
 	private static File fichero;
 
+	private static int numeroDeClientes = 0;
+
+	private static int numeroConexiones=0;
 
 	/**
 	 * Convierte en un arreglo de bits un archivo 
@@ -38,6 +41,8 @@ public class Servidor {
 		}
 		return byteArray;
 	}
+
+
 
 	/**
 	 * Funacion que crea un hash a partir de un archivo 
@@ -80,14 +85,16 @@ public class Servidor {
 		private final Socket clienteSC;
 		private final byte[] arregloBits;
 		private final String log;
-		private final long tamano;
+		private final String hash;
+		private final long tamanoArchivo;
 
 
-		public Peticion(Socket sc, byte[] parregloBits,String plog,long ptamano  ) {
+		public Peticion(Socket sc, byte[] parregloBits, String plog,String phash ,long pTamanoArchivo ) {
 			this.clienteSC= sc;
 			this.arregloBits= parregloBits;
 			this.log= plog;
-			this.tamano= ptamano;
+			this.hash= phash;
+			this.tamanoArchivo= pTamanoArchivo;
 		}
 
 		public void run() 
@@ -97,6 +104,8 @@ public class Servidor {
 
 			//DataOutputStream outD = null;
 			//DataInputStream inD = null;
+
+
 
 
 			try { 
@@ -109,6 +118,27 @@ public class Servidor {
 				// Leer del cliente 
 				in = new BufferedReader( new InputStreamReader(clienteSC.getInputStream())); 
 				//inD = new DataInputStream(clienteSC.getInputStream());
+
+
+				System.out.println("envio el hash ");
+				out.println(hash);
+
+				
+				for (int i = 0; i < arregloBits.length; i++) {
+					
+					//1460
+					
+					
+					
+					byte[] bytesAEnviar;
+					
+					
+					//out.println();
+					
+					
+				}
+
+
 
 
 				//TRANSFERENCIA DE ARCHIVOS
@@ -126,15 +156,52 @@ public class Servidor {
 			    System.out.println(bytes);
 				 */
 
-				String line; 
-				while ((line = in.readLine()) != null) {
 
 
-					// Escribiendo el mesanje del cliente
-					System.out.printf( " Sent from the client: %s\n", line); 
+				// Tamano segmento TCP 1500 Bytes = 12000 bits
+				
+				//archivos 1460 bytes
 
-					out.println(line); 
-				} 
+				//encabezados TCP 40 Bytes = 320 bits
+
+
+				//puerto origen 16 bits
+
+				//puerto destino 16 bits
+
+				// numero secuencia 32 bits
+
+				// numero de reconocimiento 32 bits
+
+				// Long Cabec 4 bits
+
+				//no usadao 6 bits
+
+				// indicadores 6 bits
+
+				// ventana 16 bits
+
+				// suma verificacion 24 bits 
+
+				// puntero de urgencia 8 bits
+
+				// opciones si las hay 
+
+				//info que envio 
+
+
+
+
+
+				//				String line; 
+				//				while ((line = in.readLine()) != null) {
+				//
+				//
+				//					// Escribiendo el mesanje del cliente
+				//					System.out.printf( " Sent from the client: %s\n", line); 
+				//
+				//					out.println(line); 
+				//				} 
 
 
 
@@ -170,11 +237,11 @@ public class Servidor {
 
 		ServerSocket servidor = null;
 
-		int numeroDeClientes=0;
+
 		final int PUERTO =61001;
 
 		String ruta=" ";
-		int numeroConexiones=0;
+
 
 
 		try {
@@ -188,7 +255,7 @@ public class Servidor {
 
 				System.out.println("\n"+"Indique el numero de clientes a los que archivo quiere enviar el archivo \n");
 
-				numeroConexiones = 25;//Integer.parseInt(scaner.nextLine());
+				numeroConexiones = 2;//Integer.parseInt(scaner.nextLine());
 
 				System.out.println(
 						"Indique que archivo quiere enviar (ESCRIBA EL NUMERO 1,2,3) \n"+
@@ -251,30 +318,50 @@ public class Servidor {
 
 			//se crea log
 
-			long tamano = fichero.length();
+			long tamanoArchivo = fichero.length();
 
 			byte[] arregloBits = getArray(fichero);
 
 			String hash = getHash(fichero);
-			
-	
+
+			String log="";
 
 
 			//Siempre estara escuchando peticiones
 
 
-			while (numeroDeClientes <= numeroConexiones) {
+			while (true) {
 
+				for (int i = 0; i < 50; i++) {
+					
+					System.out.println(arregloBits[i] );
+				}
+				
 
 				//Espero a que un cliente se conecte
 				Socket clienteSC = servidor.accept();
 
 				System.out.println("Cliente conectado"+ clienteSC.getInetAddress().getHostAddress());
 
-				Peticion threadCliente = new Peticion(clienteSC,arregloBits,hash,tamano); //hash tambien envio, log 
+
+
+				//				if(numeroDeClientes == numeroConexiones){
+				//					
+				//					for (int i = 0; i < numeroConexiones; i++) {
+
+				System.out.println("Entro"+numeroDeClientes);
+				Peticion threadCliente = new Peticion(clienteSC,arregloBits, log ,hash,tamanoArchivo); //hash tambien envio, log 
 				threadCliente.start();
+				
+				//					}
+				//				}
+
 
 				numeroDeClientes++;
+
+				System.out.println("sumo"+numeroDeClientes);
+
+
 
 			}
 

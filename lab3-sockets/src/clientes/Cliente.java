@@ -1,4 +1,4 @@
-package clientes;
+//package clientes;
 
 
 import java.io.BufferedReader;
@@ -17,6 +17,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.FileReader;
 
 
 public class Cliente {
@@ -69,6 +70,27 @@ public class Cliente {
 	} 
 	
 	
+	
+	
+	/**
+	 * 
+	 * @param file
+	 * @throws Exception
+	 */
+	public static void printContent(File file) throws Exception {
+        System.out.println("Print File Content");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+ 
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+ 
+        br.close();
+    }
+	
+	
+	
 
 	public static void main(String[] args) {
 
@@ -81,6 +103,7 @@ public class Cliente {
 		PrintWriter out = null; 
 		BufferedReader in = null; 
 		
+		
 
 
 		try {
@@ -92,6 +115,44 @@ public class Cliente {
 
 			// Leer del servidor 
 			in = new BufferedReader(new InputStreamReader( sc.getInputStream())); 
+			
+			
+			
+			//Comienza Transferencia de Archivos
+			
+			String line = in.readLine();
+			System.out.println("recibo Hash");
+			
+			String hashRecibido = line;
+			System.out.println(hashRecibido);
+			
+			
+			
+			
+			
+			//Se envia el archivo correctamente. 
+			File archivo;
+			
+			try {
+				 
+	            OutputStream os = new FileOutputStream(file);
+	            
+	            os.write(bytes);
+	            System.out.println("Write bytes to file.");
+	            printContent(file);
+	            os.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+			
+			
+			String hashArchivoRecibido =  getHash(archivo);
+			
+			if(!hashArchivoRecibido.equals(hashRecibido)) {
+				
+				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
+				
+			}
 			
 			
 			
@@ -115,22 +176,22 @@ public class Cliente {
 			
 		    
 			
-			// Intercambio de texto
-			Scanner scaner = new Scanner(System.in); 
-			String line = null; 
-
-			while (!"exit".equalsIgnoreCase(line)) { 
-
-				// Leer por consola
-				line = scaner.nextLine(); 
-
-				// Enviar de usuario a servidor
-				out.println(line); 
-				out.flush(); 
-
-				// displaying server reply 
-				System.out.println("Server replied " + in.readLine()); 
-			} 
+//			// Intercambio de texto
+//			Scanner scaner = new Scanner(System.in); 
+//			String line = null; 
+//
+//			while (!"exit".equalsIgnoreCase(line)) { 
+//
+//				// Leer por consola
+//				line = scaner.nextLine(); 
+//
+//				// Enviar de usuario a servidor
+//				out.println(line); 
+//				out.flush(); 
+//
+//				// displaying server reply 
+//				System.out.println("Server replied " + in.readLine()); 
+//			} 
 
 
 			// cerrar socket
