@@ -129,147 +129,37 @@ public class Servidor {
 			PrintWriter out = null; 
 			BufferedReader in = null; 
 
-			//DataOutputStream outD = null;
-			//DataInputStream inD = null;
-
-
-
-
 			try { 
-
-				
 
 				// Ecribir a el cliente
 				out = new PrintWriter( clienteSC.getOutputStream(), true); 
-				//outD = new DataOutputStream(clienteSC.getOutputStream());
 
 				// Leer del cliente 
 				in = new BufferedReader( new InputStreamReader(clienteSC.getInputStream())); 
-				//inD = new DataInputStream(clienteSC.getInputStream());
 
-				
-				//METODO PARA QUE LOS THREAD ENTREN A EL MISMO TIEMPO NO SIRVE
-//				System.out.println(numeroDeClientesActuales);
-//				System.out.println(NUMERO_CONEXIONES_TOTALES);
-				
 			
-				System.out.println("paso aqui");
-				
-				
-//				String estado = in.readLine();
-//				while (!"Listo".equalsIgnoreCase(estado) && numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) { 
-//					
-//				}	
-//				System.out.println(estado);
-//				
-				
-				
-				
-				
-//				while(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {	
-//					System.out.println("\n");
-//					
-//					
-//				}
-				
-				
-				System.out.println("Salio");					
-				
-				
-
-				System.out.println("envio el hash ");
+				System.out.println("Comenzo Thread:"+idCliente);
+						
+				//Se enviua el hash del archvio
 				out.println(hash);
-				
 				System.out.println("envio el hash ");
-				out.println(tamanoArchivo);
-				//01001000 01101111 01101100 01100001
 				
+				//Se envia el tamano del archivo
+				out.println(tamanoArchivo);
+				System.out.println("envio el tamanoArchivo");
+				
+				//Se comienza el envio del rchivo
 				System.out.println("Comenzo a enviar archivo ");
 				for (int i = 0; i < arregloByte.length; i++) {
-					
 					//1460	 
-					
 					out.println(i+"_"+arregloByte[i]);
-					
-					
 //					byte[] bb = {(byte) arregloByte[i]};
 //					System.out.println("aaaa:"+bb[0]);
 //					
 //					String ss = new String(bb, StandardCharsets.US_ASCII);
 //					System.out.println("bbbb:"+ss);
-					
-
-					
-					
 				}
-				out.println("terminoEnvio");
-
-
-
-
-				//TRANSFERENCIA DE ARCHIVOS
-				/*
-			    File file = new File("C:\\test.xml");
-			    InputStream is = new FileInputStream(file);
-			    //Get the size of the file
-			    long length = file.length();
-			    if (length > Integer.MAX_VALUE) {
-			        System.out.println("File is too large.");
-			    }
-			    byte[] bytes = new byte[(int) length];
-
-			    //out.write(bytes);
-			    System.out.println(bytes);
-				 */
-
-
-
-				// Tamano segmento TCP 1500 Bytes = 12000 bits
-				
-				//archivos 1460 bytes
-
-				//encabezados TCP 40 Bytes = 320 bits
-
-
-				//puerto origen 16 bits
-
-				//puerto destino 16 bits
-
-				// numero secuencia 32 bits
-
-				// numero de reconocimiento 32 bits
-
-				// Long Cabec 4 bits
-
-				//no usadao 6 bits
-
-				// indicadores 6 bits
-
-				// ventana 16 bits
-
-				// suma verificacion 24 bits 
-
-				// puntero de urgencia 8 bits
-
-				// opciones si las hay 
-
-				//info que envio 
-
-
-
-
-
-				//				String line; 
-				//				while ((line = in.readLine()) != null) {
-				//
-				//
-				//					// Escribiendo el mesanje del cliente
-				//					System.out.printf( " Sent from the client: %s\n", line); 
-				//
-				//					out.println(line); 
-				//				} 
-
-
+				out.println("termino Envio Del archivo");
 
 				clienteSC.close();
 				System.out.println("Cliente desconectado");
@@ -296,9 +186,6 @@ public class Servidor {
 
 
 
-
-
-
 	/**
 	 * Main del metodo.
 	 * @param args
@@ -322,7 +209,7 @@ public class Servidor {
 
 				System.out.println("\n"+"Indique el numero de clientes a los que archivo quiere enviar el archivo \n");
 
-				numeroConexiones = 2;//Integer.parseInt(scaner.nextLine());
+				numeroConexiones = Integer.parseInt(scaner.nextLine());
 
 				System.out.println(
 						"Indique que archivo quiere enviar (ESCRIBA EL NUMERO 1,2,3) \n"+
@@ -331,7 +218,7 @@ public class Servidor {
 								"3: Otro (pasar ruta por parametro) \n"
 						);
 
-				String Archivo = "1" ;//scaner.nextLine();
+				String Archivo = scaner.nextLine();
 
 				//Transferir archivo de 100MB
 				if(Archivo.equals("1")) {
@@ -379,9 +266,7 @@ public class Servidor {
 			//Permite que se se pueda utilizar el mismo puerto
 			servidor.setReuseAddress(true);
 			System.out.println("---------------- \n" +"Servidor iniciado \n");
-			
 
-//			Peticion.NUMERO_CONEXIONES_TOTALES = numeroConexiones;
 			
 			long tamanoArchivo = fichero.length();
 			byte[] arregloBits = getArray(fichero);
@@ -390,29 +275,20 @@ public class Servidor {
 
 			//se crea log
 			File file = new File("/Users/julianoliveros/"); //TODO Deber ser /logs
-			
 			String log = "";
 		
-			//alamceno info de cada socket
-			
-			
-
+			//alamceno info de cada socket			
 			ArrayList<Peticion> Clientes = new ArrayList<>();
 			int estado=0;
-			
-			//lista 
-			
+
 			//While que se queda esperando a que lleguen clientes.
 			while (true) {
-
-
-			
+				
 				//Espero a que un cliente se conecte
 				Socket clienteSC = servidor.accept();
+				System.out.println("Cliente conectado: "+ clienteSC.getInetAddress().getHostAddress());
 				
 				PrintWriter out = new PrintWriter( clienteSC.getOutputStream(), true); 
-
-				// Leer del servidor 
 				BufferedReader in = new BufferedReader(new InputStreamReader( clienteSC.getInputStream())); 
 				
 				String  idCliente = in.readLine();
@@ -424,8 +300,6 @@ public class Servidor {
 					estado++;					
 				}
 				
-				System.out.println("Cliente conectado: "+ clienteSC.getInetAddress().getHostAddress());
-				
 				Peticion threadCliente = new Peticion(clienteSC,idCliente,arregloBits, log ,hash,tamanoArchivo); //hash tambien envio, log 
 				Clientes.add(threadCliente); 
 				
@@ -434,13 +308,9 @@ public class Servidor {
 						Clientes.get(i).start();
 					}
 				}
-				
 			}
 
-
 			//imprime log
-
-
 		}
 		catch (IOException ex)
 		{

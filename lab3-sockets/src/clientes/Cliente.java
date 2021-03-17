@@ -25,10 +25,15 @@ import java.nio.charset.StandardCharsets;
 
 
 
-
+/**
+ * clase de cliente 
+ * 
+ * @author je.oliverosf
+ *
+ */
 public class Cliente {
 
-	
+
 
 	/**
 	 * Convierte en un arreglo de bits un archivo 
@@ -49,6 +54,7 @@ public class Cliente {
 		}
 		return byteArray;
 	}
+
 
 	/**
 	 * Funacion que crea un hash a partir de un archivo 
@@ -77,8 +83,6 @@ public class Cliente {
 	} 
 
 
-
-
 	/**
 	 * 
 	 * @param file
@@ -98,7 +102,10 @@ public class Cliente {
 
 
 
-
+	/**
+	 * Main de la clase cliente 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		//Host del servidor
@@ -107,44 +114,47 @@ public class Cliente {
 		//Puerto del servidor
 		final int PUERTO =61001;
 
+		//Meodos para ecribir y leer
 		PrintWriter out = null; 
 		BufferedReader in = null; 
 
+		//Id del cliente
 		String id=" ";
 
 
 
 		try {
-			Socket sc = new Socket(HOST, PUERTO);
 			
+			// Se crea el socket y conecta a la ip y puerto 
+			Socket sc = new Socket(HOST, PUERTO);
+
 			// Escribir a el servidor
 			out = new PrintWriter( sc.getOutputStream(), true); 
 
 			// Leer del servidor 
 			in = new BufferedReader(new InputStreamReader( sc.getInputStream())); 
-			
+
 			//Lector
 			Scanner scaner = new Scanner(System.in);
-			
+
+			//Se pregunta y envia a el servidor el id del cliente
 			System.out.println("Escriba el id del cliente (numero)");
 			id = scaner.nextLine();
 			out.println(id);
-			
-			
+
+
+			// ciclo hasta que escriba la palabra Listo
 			boolean listo=true;
 			while(listo) {
 				System.out.println("Indique cuando este listo para la empezar la recepcion del archivo escribiendo: Listo");
-				 if(scaner.nextLine().equals("Listo")) 
-					 listo=false;
+				if(scaner.nextLine().equals("Listo")) 
+					listo=false;
 			}
-			
 			out.println("Listo");
-			
 
-			System.out.println("Entro");
 
+			System.out.println("Esperando Hash");
 			//Comienza Transferencia de Archivos
-
 			String line = in.readLine();
 			String hashRecibido = line;
 			System.out.println("recibo Hash"+hashRecibido);
@@ -156,13 +166,8 @@ public class Cliente {
 
 
 			// Intercambio de texto
-
-
 			byte[] arregloRecibido= new byte[t]; 
 			String[] recibido;
-
-			System.out.println("paso aqui"); 
-
 
 			while (!"terminoEnvio".equalsIgnoreCase(line)) { 
 
@@ -177,24 +182,22 @@ public class Cliente {
 				}
 				recibido =  line.split("_"); 
 
-//				System.out.println("1:"+recibido[0]);
-//				System.out.println("2:"+recibido[1]);
-				
-				
+				//				System.out.println("1:"+recibido[0]);
+				//				System.out.println("2:"+recibido[1]);
 				int s = Integer.parseInt(recibido[1]);
-				
+
 				byte[] bb = {(byte) s};
 
-//				System.out.println("3:"+bb[0]);
+				//				System.out.println("3:"+bb[0]);
 
 
 				int p= Integer.parseInt(recibido[0]);
 				arregloRecibido[p]=bb[0];
-				
-//				System.out.println("4:"+arregloRecibido[p]);
+
+				//				System.out.println("4:"+arregloRecibido[p]);
 
 
-				
+
 				// displaying server reply 
 				//System.out.println("Server replied " + in.readLine()); 
 			} 
@@ -203,17 +206,8 @@ public class Cliente {
 			// cerrar socket
 			sc.close(); 
 
-
-
+			//ruta donde creara el archivo 
 			File file = new File("H:/Desktop/Cliente"+id+"-Prueba-5.pdf");
-
-
-
-
-			byte[] arregloBits;
-
-			//Se envia el archivo correctamente. 
-			File archivo;
 
 			try {
 
@@ -230,12 +224,11 @@ public class Cliente {
 			}
 
 
+			//Se verifica que el hash sea el mismo
 			String hashArchivoRecibido =  getHash(file);
 
 			if(!hashArchivoRecibido.equals(hashRecibido)) {
-
 				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
-
 			}
 			else {
 				System.out.println("\n"+"EL VALOR CALCULADO PARA EL HASH DEL ARHCIVO ES CORRECTO"+"\n");
