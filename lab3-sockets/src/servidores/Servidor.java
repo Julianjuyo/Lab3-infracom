@@ -1,9 +1,10 @@
-//package servidores;
+package servidores;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Servidor {
 
-	private final static String RUTA1="/Users/julianoliveros/100MBcopy.bin";
+	private final static String RUTA1="H:/Desktop/Laboratorio3TCP.pdf";
 	private final static String RUTA2="/Users/julianoliveros/250MBcopy.zip";
 	private static File fichero;
 
@@ -104,18 +105,19 @@ public class Servidor {
 	private static class Peticion extends Thread{
 
 		private final Socket clienteSC;
+		private String  idCliente;
 		private final byte[] arregloByte;
 		private final String log;
 		private final String hash;
 		private final long tamanoArchivo;
 		
-		private static int numeroDeClientesActuales = 0;
+//		private static int numeroDeClientesActuales = 0;
+//		private static int NUMERO_CONEXIONES_TOTALES = 0;
 
-		private static int NUMERO_CONEXIONES_TOTALES = 0;
 
-
-		public Peticion(Socket sc, byte[] parregloBits, String plog,String phash ,long pTamanoArchivo ) {
+		public Peticion(Socket sc, String pidCliente ,byte[] parregloBits, String plog,String phash ,long pTamanoArchivo ) {
 			this.clienteSC= sc;
+			this.idCliente=pidCliente;
 			this.arregloByte= parregloBits;
 			this.log= plog;
 			this.hash= phash;
@@ -135,7 +137,7 @@ public class Servidor {
 
 			try { 
 
-				numeroDeClientesActuales++;
+				
 
 				// Ecribir a el cliente
 				out = new PrintWriter( clienteSC.getOutputStream(), true); 
@@ -147,19 +149,19 @@ public class Servidor {
 
 				
 				//METODO PARA QUE LOS THREAD ENTREN A EL MISMO TIEMPO NO SIRVE
-				System.out.println(numeroDeClientesActuales);
-				System.out.println(NUMERO_CONEXIONES_TOTALES);
+//				System.out.println(numeroDeClientesActuales);
+//				System.out.println(NUMERO_CONEXIONES_TOTALES);
 				
 			
 				System.out.println("paso aqui");
 				
 				
-				String estado = in.readLine();
-				while (!"Listo".equalsIgnoreCase(estado) && numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) { 
-					
-				}	
-				System.out.println(estado);
-				
+//				String estado = in.readLine();
+//				while (!"Listo".equalsIgnoreCase(estado) && numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) { 
+//					
+//				}	
+//				System.out.println(estado);
+//				
 				
 				
 				
@@ -329,7 +331,7 @@ public class Servidor {
 								"3: Otro (pasar ruta por parametro) \n"
 						);
 
-				String Archivo = "3" ;//scaner.nextLine();
+				String Archivo = "1" ;//scaner.nextLine();
 
 				//Transferir archivo de 100MB
 				if(Archivo.equals("1")) {
@@ -356,7 +358,7 @@ public class Servidor {
 					while(c) {
 						System.out.println("Escriba la ruta del archivo \n");
 						ruta = scaner.nextLine();
-						fichero = new File("/Users/julianoliveros/Public/matricula.pdf");
+						fichero = new File(ruta);
 
 						if(fichero.exists()) { 
 							CargoDatos=true;
@@ -379,7 +381,8 @@ public class Servidor {
 			System.out.println("---------------- \n" +"Servidor iniciado \n");
 			
 
-			Peticion.NUMERO_CONEXIONES_TOTALES = numeroConexiones;
+//			Peticion.NUMERO_CONEXIONES_TOTALES = numeroConexiones;
+			
 			long tamanoArchivo = fichero.length();
 			byte[] arregloBits = getArray(fichero);
 			String hash = getHash(fichero);
@@ -394,7 +397,8 @@ public class Servidor {
 			
 			
 
-			Peticion[] Clientes;
+			ArrayList<Peticion> Clientes = new ArrayList<>();
+			int estado=0;
 			
 			//lista 
 			
@@ -405,19 +409,32 @@ public class Servidor {
 			
 				//Espero a que un cliente se conecte
 				Socket clienteSC = servidor.accept();
-
-				//suma ++
 				
+				PrintWriter out = new PrintWriter( clienteSC.getOutputStream(), true); 
+
+				// Leer del servidor 
+				BufferedReader in = new BufferedReader(new InputStreamReader( clienteSC.getInputStream())); 
+				
+				String  idCliente = in.readLine();
+				System.out.println(idCliente);
+				
+				String  estadoActual = in.readLine();
+				System.out.println(idCliente+estadoActual);
+				if(estadoActual.equals("Listo")){
+					estado++;					
+				}
 				
 				System.out.println("Cliente conectado: "+ clienteSC.getInetAddress().getHostAddress());
 				
+				Peticion threadCliente = new Peticion(clienteSC,idCliente,arregloBits, log ,hash,tamanoArchivo); //hash tambien envio, log 
+				Clientes.add(threadCliente); 
 				
+				if(Clientes.size()== numeroConexiones && estado== numeroConexiones){
+					for (int i = 0; i < Clientes.size(); i++) {
+						Clientes.get(i).start();
+					}
+				}
 				
-
-				Peticion threadCliente = new Peticion(clienteSC,arregloBits, log ,hash,tamanoArchivo); //hash tambien envio, log 
-				
-				
-				threadCliente.start();
 			}
 
 

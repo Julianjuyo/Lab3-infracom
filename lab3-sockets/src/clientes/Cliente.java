@@ -1,4 +1,4 @@
-//package clientes;
+package clientes;
 
 
 import java.io.BufferedReader;
@@ -128,6 +128,7 @@ public class Cliente {
 			
 			System.out.println("Escriba el id del cliente (numero)");
 			id = scaner.nextLine();
+			out.println(id);
 			
 			
 			boolean listo=true;
@@ -138,9 +139,6 @@ public class Cliente {
 			}
 			
 			out.println("Listo");
-			
-
-			
 			
 
 			System.out.println("Entro");
@@ -207,7 +205,7 @@ public class Cliente {
 
 
 
-			File file = new File("/Users/julianoliveros/Cliente"+id+"-Prueba-5.pdf");
+			File file = new File("H:/Desktop/Cliente"+id+"-Prueba-5.pdf");
 
 
 
@@ -242,29 +240,6 @@ public class Cliente {
 			else {
 				System.out.println("\n"+"EL VALOR CALCULADO PARA EL HASH DEL ARHCIVO ES CORRECTO"+"\n");
 			}
-
-
-
-
-			//TRANSFERENCIA DE ARCHIVOS
-			/*
-		    DataOutputStream outD = new DataOutputStream(new OutputStream(sc.getOutputStream()));
-		    DataInputStream inD = new DataInputStream(new InputStream(sc.getInputStream()));
-
-		    byte[] bytes = new byte[1024];
-
-		    inD.read(bytes);
-		    System.out.println(bytes);
-
-		    FileOutputStream fos = new FileOutputStream("C:\\test2.xml");
-		    fos.write(bytes);
-
-			 */
-
-
-
-
-
 
 
 
