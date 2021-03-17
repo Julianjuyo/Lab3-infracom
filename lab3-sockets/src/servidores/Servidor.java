@@ -390,7 +390,13 @@ public class Servidor {
 			
 			String log = "";
 		
+			//alamceno info de cada socket
 			
+			
+
+			Peticion[] Clientes;
+			
+			//lista 
 			
 			//While que se queda esperando a que lleguen clientes.
 			while (true) {
@@ -400,10 +406,17 @@ public class Servidor {
 				//Espero a que un cliente se conecte
 				Socket clienteSC = servidor.accept();
 
+				//suma ++
+				
+				
 				System.out.println("Cliente conectado: "+ clienteSC.getInetAddress().getHostAddress());
-
+				
+				
+				
 
 				Peticion threadCliente = new Peticion(clienteSC,arregloBits, log ,hash,tamanoArchivo); //hash tambien envio, log 
+				
+				
 				threadCliente.start();
 			}
 
