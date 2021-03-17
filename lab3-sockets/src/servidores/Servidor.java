@@ -153,11 +153,11 @@ public class Servidor {
 				System.out.println(NUMERO_CONEXIONES_TOTALES);
 				
 				
-//				while(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {	
-//					System.out.println("\n");
-//					
-//					
-//				}
+				while(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {	
+					System.out.println("\n");
+					
+					
+				}
 				
 				
 				System.out.println("Salio");					
@@ -178,30 +178,14 @@ public class Servidor {
 					
 					out.println(i+"_"+arregloByte[i]);
 					
-					byte[] bb = {(byte) arregloByte[i]};
-					System.out.println("aaaa:"+bb[0]);
 					
-					String ss = new String(bb, StandardCharsets.US_ASCII);
-					System.out.println("bbbb:"+ss);
-					
-					
+//					byte[] bb = {(byte) arregloByte[i]};
+//					System.out.println("aaaa:"+bb[0]);
 //					
-//					if(bb[0]==10) {
-//						
-//						String ss = "\n";
-//						System.out.println("bbbb:"+ss);
-//						out.println(i+"_"+ss);
-//					}
-//					else {
-//						
-//						out.println(i+"_"+ss);
-//					}
-//					
+//					String ss = new String(bb, StandardCharsets.US_ASCII);
+//					System.out.println("bbbb:"+ss);
 					
-					
-//					if(i>(arregloByte.length-100)) {
-//						//System.out.println("el byte enviado"+arregloByte[i]);
-//					}
+
 					
 					
 				}
@@ -302,16 +286,15 @@ public class Servidor {
 
 
 
+	/**
+	 * Main del metodo.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		ServerSocket servidor = null;
-
-
 		final int PUERTO =61001;
-
 		String ruta=" ";
-
-
 		int numeroConexiones=0;
 
 
@@ -326,7 +309,7 @@ public class Servidor {
 
 				System.out.println("\n"+"Indique el numero de clientes a los que archivo quiere enviar el archivo \n");
 
-				numeroConexiones = 2;//Integer.parseInt(scaner.nextLine());
+				numeroConexiones = 1;//Integer.parseInt(scaner.nextLine());
 
 				System.out.println(
 						"Indique que archivo quiere enviar (ESCRIBA EL NUMERO 1,2,3) \n"+
@@ -335,7 +318,7 @@ public class Servidor {
 								"3: Otro (pasar ruta por parametro) \n"
 						);
 
-				String Archivo = "3" ;//scaner.nextLine();
+				String Archivo = "1" ;//scaner.nextLine();
 
 				//Transferir archivo de 100MB
 				if(Archivo.equals("1")) {
@@ -389,6 +372,7 @@ public class Servidor {
 
 			//se crea log
 
+			
 			long tamanoArchivo = fichero.length();
 
 			byte[] arregloBits = getArray(fichero);

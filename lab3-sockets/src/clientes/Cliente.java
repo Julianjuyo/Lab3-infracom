@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 
 public class Cliente {
 
+	
 
 	/**
 	 * Convierte en un arreglo de bits un archivo 
@@ -109,11 +110,19 @@ public class Cliente {
 		PrintWriter out = null; 
 		BufferedReader in = null; 
 
+		String id=" ";
 
 
 
 		try {
 			Socket sc = new Socket(HOST, PUERTO);
+			
+			Scanner scaner = new Scanner(System.in);
+			
+			System.out.println("Escriba el id del cliente (numero)");
+			id = scaner.nextLine();
+			
+			
 
 			// Escribir a el servidor
 			out = new PrintWriter( sc.getOutputStream(), true); 
@@ -158,36 +167,24 @@ public class Cliente {
 				}
 				recibido =  line.split("_"); 
 
-				System.out.println("1:"+recibido[0]);
-				System.out.println("2:"+recibido[1]);
+//				System.out.println("1:"+recibido[0]);
+//				System.out.println("2:"+recibido[1]);
 				
-				
-			
 				
 				int s = Integer.parseInt(recibido[1]);
 				
 				byte[] bb = {(byte) s};
 
-				System.out.println("3:"+bb[0]);
-				
+//				System.out.println("3:"+bb[0]);
 
-//				String s = recibido[1];
-//				byte[] b = recibido[1].getBytes(StandardCharsets.UTF_8);
 
 				int p= Integer.parseInt(recibido[0]);
-
 				arregloRecibido[p]=bb[0];
 				
-				System.out.println("4:"+arregloRecibido[p]);
+//				System.out.println("4:"+arregloRecibido[p]);
 
 
-				if(p>(t-100)){
-					//System.out.println("el byte recibido"+b);
-					// Enviar de usuario a servidor
-				}
-
-
-
+				
 				// displaying server reply 
 				//System.out.println("Server replied " + in.readLine()); 
 			} 
@@ -198,7 +195,7 @@ public class Cliente {
 
 
 
-			File file = new File("/Users/julianoliveros/Cliente1-Prueba-5.pdf");
+			File file = new File("/Users/julianoliveros/Cliente"+id+"-Prueba-5.pdf");
 
 
 
@@ -231,7 +228,7 @@ public class Cliente {
 
 			}
 			else {
-				System.out.println("ARHCIVO ES CORRECTO");
+				System.out.println("\n"+"EL VALOR CALCULADO PARA EL HASH DEL ARHCIVO ES CORRECTO"+"\n");
 			}
 
 
