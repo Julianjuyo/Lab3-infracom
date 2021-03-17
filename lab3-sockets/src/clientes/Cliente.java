@@ -18,6 +18,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.FileReader;
+import java.io.FileOutputStream;
 
 
 public class Cliente {
@@ -116,7 +117,7 @@ public class Cliente {
 			// Leer del servidor 
 			in = new BufferedReader(new InputStreamReader( sc.getInputStream())); 
 			
-			
+			System.out.println("Entro");
 			
 			//Comienza Transferencia de Archivos
 			
@@ -128,31 +129,38 @@ public class Cliente {
 			
 			
 			
+			File file = new File("c:\\ArchivosRecibidos/Cliente1-Prueba-5.txt");
 			
+			
+			
+			
+			 byte[] arregloBits;
 			
 			//Se envia el archivo correctamente. 
-			File archivo;
-			
-			try {
-				 
-	            OutputStream os = new FileOutputStream(file);
-	            
-	            os.write(bytes);
-	            System.out.println("Write bytes to file.");
-	            printContent(file);
-	            os.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-			
-			
-			String hashArchivoRecibido =  getHash(archivo);
-			
-			if(!hashArchivoRecibido.equals(hashRecibido)) {
-				
-				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
-				
-			}
+//			File archivo;
+//			
+//			try {
+//				 
+//	            OutputStream os = new FileOutputStream(file);
+//	            
+//	            os.write(arregloBits);
+//	            System.out.println("Write bytes to file.");
+//	            
+//	            printContent(file);
+//	            
+//	            os.close();
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	        }
+//			
+//			
+//			String hashArchivoRecibido =  getHash(archivo);
+//			
+//			if(!hashArchivoRecibido.equals(hashRecibido)) {
+//				
+//				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
+//				
+//			}
 			
 			
 			
@@ -178,24 +186,24 @@ public class Cliente {
 			
 //			// Intercambio de texto
 //			Scanner scaner = new Scanner(System.in); 
-//			String line = null; 
+//			String line2 = null; 
 //
-//			while (!"exit".equalsIgnoreCase(line)) { 
+//			while (!"exit".equalsIgnoreCase(line2)) { 
 //
 //				// Leer por consola
-//				line = scaner.nextLine(); 
+//				line2 = scaner.nextLine(); 
 //
 //				// Enviar de usuario a servidor
-//				out.println(line); 
+//				out.println(line2); 
 //				out.flush(); 
 //
 //				// displaying server reply 
 //				System.out.println("Server replied " + in.readLine()); 
 //			} 
-
-
-			// cerrar socket
-			sc.close(); 
+//
+//
+//			// cerrar socket
+//			sc.close(); 
 
 
 		} catch (IOException ex) {

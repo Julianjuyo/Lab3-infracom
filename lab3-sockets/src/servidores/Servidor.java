@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+
 import java.security.*;
 import java.math.BigInteger; 
 import java.security.MessageDigest; 
@@ -18,9 +20,7 @@ public class Servidor {
 	private final static String RUTA2="/Users/julianoliveros/250MBcopy.zip";
 	private static File fichero;
 
-	private static int numeroDeClientes = 0;
 
-	private static int numeroConexiones=0;
 
 	/**
 	 * Convierte en un arreglo de bits un archivo 
@@ -29,6 +29,7 @@ public class Servidor {
 	 */	
 	public static byte[] getArray(File file){
 		byte[] byteArray = new byte[(int) file.length()];
+		
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			int bytesCount = 0; 
@@ -71,7 +72,23 @@ public class Servidor {
 	} 
 
 
-
+	
+	/**
+	 * 
+	 * @param file
+	 * @throws Exception
+	 */
+	public static void printContent(File file) throws Exception {
+        System.out.println("Print File Content");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+ 
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+ 
+        br.close();
+    }
 
 
 
@@ -87,6 +104,10 @@ public class Servidor {
 		private final String log;
 		private final String hash;
 		private final long tamanoArchivo;
+		
+		private static int numeroDeClientesActuales = 0;
+
+		private static int NUMERO_CONEXIONES_TOTALES = 0;
 
 
 		public Peticion(Socket sc, byte[] parregloBits, String plog,String phash ,long pTamanoArchivo ) {
@@ -110,6 +131,7 @@ public class Servidor {
 
 			try { 
 
+				numeroDeClientesActuales++;
 
 				// Ecribir a el cliente
 				out = new PrintWriter( clienteSC.getOutputStream(), true); 
@@ -119,10 +141,45 @@ public class Servidor {
 				in = new BufferedReader( new InputStreamReader(clienteSC.getInputStream())); 
 				//inD = new DataInputStream(clienteSC.getInputStream());
 
+				
+				
+				
+				//METODO PARA QUE LOS THREAD ENTREN A EL MISMO TIEMPO NO SIRVE
+//				System.out.println(numeroDeClientesActuales);
+//				System.out.println(NUMERO_CONEXIONES_TOTALES);
+//				
+//				if(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {
+//					
+//					synchronized (this) {
+//						try {
+//							wait();
+//						}
+//						catch (Exception e) {
+//							e.printStackTrace();
+//						}
+//					}
+//
+//				}
+//				else{
+//					
+//					notifyAll();
+//				}
+//				
+//				System.out.println("Despues"+ numeroDeClientesActuales);
+//				System.out.println("Despues"+ NUMERO_CONEXIONES_TOTALES);
+				
+				
+				
+				
 
 				System.out.println("envio el hash ");
 				out.println(hash);
 
+				//01001000 01101111 01101100 01100001
+				
+				byte[] envio = new byte[1];
+				
+				
 				
 				for (int i = 0; i < arregloBits.length; i++) {
 					
@@ -243,6 +300,8 @@ public class Servidor {
 		String ruta=" ";
 
 
+		int numeroConexiones=0;
+
 
 		try {
 
@@ -255,7 +314,7 @@ public class Servidor {
 
 				System.out.println("\n"+"Indique el numero de clientes a los que archivo quiere enviar el archivo \n");
 
-				numeroConexiones = 2;//Integer.parseInt(scaner.nextLine());
+				numeroConexiones = 3;//Integer.parseInt(scaner.nextLine());
 
 				System.out.println(
 						"Indique que archivo quiere enviar (ESCRIBA EL NUMERO 1,2,3) \n"+
@@ -330,12 +389,32 @@ public class Servidor {
 			//Siempre estara escuchando peticiones
 
 
+//			File file = new File("/Users/julianoliveros/duplicado.pdf");
+//			
+//			
+//			try {
+//				 
+//	            OutputStream os = new FileOutputStream(file);
+//	            
+//	            os.write(arregloBits);
+//	            System.out.println("Write bytes to file.");
+//	            
+//	            printContent(file);
+//	            
+//	            os.close();
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	        }
+			
+			
+			
+			Peticion.NUMERO_CONEXIONES_TOTALES = numeroConexiones;
+			
+			
+			
 			while (true) {
 
-				for (int i = 0; i < 50; i++) {
-					
-					System.out.println(arregloBits[i] );
-				}
+
 				
 
 				//Espero a que un cliente se conecte
@@ -344,22 +423,9 @@ public class Servidor {
 				System.out.println("Cliente conectado"+ clienteSC.getInetAddress().getHostAddress());
 
 
-
-				//				if(numeroDeClientes == numeroConexiones){
-				//					
-				//					for (int i = 0; i < numeroConexiones; i++) {
-
-				System.out.println("Entro"+numeroDeClientes);
 				Peticion threadCliente = new Peticion(clienteSC,arregloBits, log ,hash,tamanoArchivo); //hash tambien envio, log 
 				threadCliente.start();
-				
-				//					}
-				//				}
 
-
-				numeroDeClientes++;
-
-				System.out.println("sumo"+numeroDeClientes);
 
 
 
