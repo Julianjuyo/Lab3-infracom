@@ -1,4 +1,4 @@
-package servidores;
+//package servidores;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -165,7 +165,7 @@ public class Servidor {
 				System.out.println("envio el hash ");
 				
 				out.println(hash);
-
+				out.println(tamanoArchivo);
 				//01001000 01101111 01101100 01100001
 				
 				
@@ -176,7 +176,7 @@ public class Servidor {
 					
 					//1460					
 					
-					out.println(arregloByte[i]);
+					out.println(i+"_"+arregloByte[i]);
 					
 					
 				}

@@ -126,25 +126,27 @@ public class Cliente {
 			
 			String hashRecibido = line;
 			System.out.println(hashRecibido);
-			
-			
+			line= in.readLine();
+			String tamano = line;
+			int t= Integer.parseInt(tamano);
 			
 			// Intercambio de texto
 			Scanner scaner = new Scanner(System.in); 
 
-
-			
+			byte[] arregloRecibido= new byte[t]; 
+			String[] recibido;
 			while (!"terminoEnvio".equalsIgnoreCase(line)) { 
 
 				// Leer por consola
-				line = scaner.nextLine(); 
+				recibido = scaner.nextLine().split("_"); 
 
-				Byte[] arreglo = line.getBytes();
-				
+				Byte b = recibido[1].getBytes()[0];
+				int p= Integer.parseInt(recibido[0]);
+				arregloRecibido[p]=b;
 				
 				// Enviar de usuario a servidor
-				out.println(line); 
-				out.flush(); 
+				System.out.println(b);
+				
 
 				
 				// displaying server reply 
