@@ -137,7 +137,7 @@ public class Cliente {
 			byte[] arregloRecibido= new byte[t]; 
 			String[] recibido;
 			
-			System.out.println("paso aqui");
+			System.out.println("paso aqui"); 
 			
 			while (!"terminoEnvio".equalsIgnoreCase(line)) { 
 
@@ -156,12 +156,18 @@ public class Cliente {
 				System.out.println(recibido[1]);
 				
 				
-				Byte b = (byte) recibido[1].charAt(0);
+				
+				Byte b = (byte) recibido[1].getBytes()[0];
+				
 				int p= Integer.parseInt(recibido[0]);
 				arregloRecibido[p]=b;
 				
-				// Enviar de usuario a servidor
-				System.out.println("el byte recibido"+b);
+				if(p>(t-100)){
+					System.out.println("el byte recibido"+b);
+					// Enviar de usuario a servidor
+				}
+				
+				
 			
 				// displaying server reply 
 				//System.out.println("Server replied " + in.readLine()); 
@@ -173,7 +179,7 @@ public class Cliente {
 			
 			
 			
-			File file = new File("/Users/julianoliveros/Cliente1-Prueba-5.txt");
+			File file = new File("/Users/julianoliveros/Cliente1-Prueba-5.pdf");
 			
 			
 			

@@ -170,12 +170,14 @@ public class Servidor {
 				//01001000 01101111 01101100 01100001
 				
 				System.out.println("Comenzo a enviar archivo ");
-				for (int i = 0; i < 10; i++) {
+				for (int i = 0; i < arregloByte.length; i++) {
 					
 					//1460					
-					System.out.println("el byte enviado"+arregloByte[i]);
-					
 					out.println(i+"_"+arregloByte[i]);
+					
+					if(i>(arregloByte.length-100)) {
+						System.out.println("el byte enviado"+arregloByte[i]);
+					}
 					
 					
 				}
@@ -309,7 +311,7 @@ public class Servidor {
 								"3: Otro (pasar ruta por parametro) \n"
 						);
 
-				String Archivo = "1" ;//scaner.nextLine();
+				String Archivo = "3" ;//scaner.nextLine();
 
 				//Transferir archivo de 100MB
 				if(Archivo.equals("1")) {
