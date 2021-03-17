@@ -122,33 +122,47 @@ public class Cliente {
 			//Comienza Transferencia de Archivos
 			
 			String line = in.readLine();
-			System.out.println("recibo Hash");
-			
 			String hashRecibido = line;
-			System.out.println(hashRecibido);
+			System.out.println("recibo Hash"+hashRecibido);
+			
 			line= in.readLine();
 			String tamano = line;
 			int t= Integer.parseInt(tamano);
+			System.out.println("recibo tamano"+t);
+			
 			
 			// Intercambio de texto
-			Scanner scaner = new Scanner(System.in); 
+
 
 			byte[] arregloRecibido= new byte[t]; 
 			String[] recibido;
+			
+			System.out.println("paso aqui");
+			
 			while (!"terminoEnvio".equalsIgnoreCase(line)) { 
 
+				
+				System.out.println("entro");
+				
 				// Leer por consola
-				recibido = scaner.nextLine().split("_"); 
+				line = in.readLine();
+				
+				if(line.equals("terminoEnvio")) {
+					continue;
+				}
+				recibido =  line.split("_"); 
 
-				Byte b = recibido[1].getBytes()[0];
+				System.out.println(recibido[0]);
+				System.out.println(recibido[1]);
+				
+				
+				Byte b = (byte) recibido[1].charAt(0);
 				int p= Integer.parseInt(recibido[0]);
 				arregloRecibido[p]=b;
 				
 				// Enviar de usuario a servidor
-				System.out.println(b);
-				
-
-				
+				System.out.println("el byte recibido"+b);
+			
 				// displaying server reply 
 				//System.out.println("Server replied " + in.readLine()); 
 			} 
@@ -159,7 +173,7 @@ public class Cliente {
 			
 			
 			
-			File file = new File("c:\\ArchivosRecibidos/Cliente1-Prueba-5.txt");
+			File file = new File("/Users/julianoliveros/Cliente1-Prueba-5.txt");
 			
 			
 			
@@ -167,30 +181,33 @@ public class Cliente {
 			 byte[] arregloBits;
 			
 			//Se envia el archivo correctamente. 
-//			File archivo;
-//			
-//			try {
-//				 
-//	            OutputStream os = new FileOutputStream(file);
-//	            
-//	            os.write(arregloBits);
-//	            System.out.println("Write bytes to file.");
-//	            
-//	            printContent(file);
-//	            
-//	            os.close();
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	        }
-//			
-//			
-//			String hashArchivoRecibido =  getHash(archivo);
-//			
-//			if(!hashArchivoRecibido.equals(hashRecibido)) {
-//				
-//				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
-//				
-//			}
+			File archivo;
+			
+			try {
+				 
+	            OutputStream os = new FileOutputStream(file);
+	            
+	            os.write(arregloRecibido);
+	            System.out.println("Write bytes to file.");
+	            
+	            printContent(file);
+	            
+	            os.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+			
+			
+			String hashArchivoRecibido =  getHash(file);
+			
+			if(!hashArchivoRecibido.equals(hashRecibido)) {
+				
+				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
+				
+			}
+			else {
+				System.out.println("ARHCIVO ES CORRECTO");
+			}
 			
 			
 			

@@ -151,11 +151,11 @@ public class Servidor {
 				System.out.println(NUMERO_CONEXIONES_TOTALES);
 				
 				
-				while(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {	
-					System.out.println("\n");
-					
-					
-				}
+//				while(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {	
+//					System.out.println("\n");
+//					
+//					
+//				}
 				
 				
 				System.out.println("Salio");					
@@ -163,24 +163,23 @@ public class Servidor {
 				
 
 				System.out.println("envio el hash ");
-				
 				out.println(hash);
+				
+				System.out.println("envio el hash ");
 				out.println(tamanoArchivo);
 				//01001000 01101111 01101100 01100001
 				
-				
-				
-				
-	
-				for (int i = 0; i < arregloByte.length; i++) {
+				System.out.println("Comenzo a enviar archivo ");
+				for (int i = 0; i < 10; i++) {
 					
 					//1460					
+					System.out.println("el byte enviado"+arregloByte[i]);
 					
 					out.println(i+"_"+arregloByte[i]);
 					
 					
 				}
-				out.println("termino");
+				out.println("terminoEnvio");
 
 
 
