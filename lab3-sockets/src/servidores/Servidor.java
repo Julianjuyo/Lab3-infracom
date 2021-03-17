@@ -3,6 +3,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +31,7 @@ public class Servidor {
 	 * @return
 	 */	
 	public static byte[] getArray(File file){
+		
 		byte[] byteArray = new byte[(int) file.length()];
 		
 		try {
@@ -85,9 +87,9 @@ public class Servidor {
         BufferedReader br = new BufferedReader(new FileReader(file));
  
         String line = null;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
-        }
+//        while ((line = br.readLine()) != null) {
+//            System.out.println(line);
+//        }
  
         br.close();
     }
@@ -172,12 +174,34 @@ public class Servidor {
 				System.out.println("Comenzo a enviar archivo ");
 				for (int i = 0; i < arregloByte.length; i++) {
 					
-					//1460					
+					//1460	 
+					
 					out.println(i+"_"+arregloByte[i]);
 					
-					if(i>(arregloByte.length-100)) {
-						//System.out.println("el byte enviado"+arregloByte[i]);
-					}
+					byte[] bb = {(byte) arregloByte[i]};
+					System.out.println("aaaa:"+bb[0]);
+					
+					String ss = new String(bb, StandardCharsets.US_ASCII);
+					System.out.println("bbbb:"+ss);
+					
+					
+//					
+//					if(bb[0]==10) {
+//						
+//						String ss = "\n";
+//						System.out.println("bbbb:"+ss);
+//						out.println(i+"_"+ss);
+//					}
+//					else {
+//						
+//						out.println(i+"_"+ss);
+//					}
+//					
+					
+					
+//					if(i>(arregloByte.length-100)) {
+//						//System.out.println("el byte enviado"+arregloByte[i]);
+//					}
 					
 					
 				}
@@ -372,12 +396,32 @@ public class Servidor {
 			String hash = getHash(fichero);
 
 			
+			for (int i = 0; i < 20; i++) {
+				System.out.println("aaaa"+arregloBits[i]);
+			}
+			
+//			File file = new File("/Users/julianoliveros/Cliente1-Prueba-5.pdf");
+//			
+//			File archivo;
+//			
+//			try {
+//				 
+//	            OutputStream os = new FileOutputStream(file);
+//	            
+//	            os.write(arregloBits);
+//	            System.out.println("Write bytes to file.");
+//	            
+//	            printContent(file);
+//	            
+//	            os.close();
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	        }
+			
 			
 			String log = "";
 
 
-
-			System.out.println(arregloBits[0]);
 			
 			
 			

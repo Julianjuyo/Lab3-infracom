@@ -1,6 +1,7 @@
 package util;
 
 import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.io.IOException;
@@ -41,7 +42,23 @@ public class Logger {
 		  byte[] bytes = string.getBytes(Charset.defaultCharset());
 		  System.out.println("String: " + string);
 		  System.out.println("Bytes: " + Arrays.toString(bytes));
-		  System.out.println(bytes.length);
+
+		  
+		  
+		  String s = "4";
+		  byte[] b = s.getBytes(StandardCharsets.UTF_8);
+		  
+		  System.out.println(s);
+		  System.out.println(b[0]);
+		  
+		  
+
+		  byte[] bb = {(byte) 37};
+		  String ss = new String(bb, StandardCharsets.US_ASCII);
+		  
+		  System.out.println(bb[0]);
+		  System.out.println(ss);
+		  
 		  
 	}
 
