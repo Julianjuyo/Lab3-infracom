@@ -36,30 +36,31 @@ public class Logger {
 		print_line.close();
 	}
 	
-	public static void main(String[] args) {
-		
-		  String string = "0";
-		  byte[] bytes = string.getBytes(Charset.defaultCharset());
-		  System.out.println("String: " + string);
-		  System.out.println("Bytes: " + Arrays.toString(bytes));
-
-		  
-		  
-		  String s = "4";
-		  byte[] b = s.getBytes(StandardCharsets.UTF_8);
-		  
-		  System.out.println(s);
-		  System.out.println(b[0]);
-		  
-		  
-
-		  byte[] bb = {(byte) 37};
-		  String ss = new String(bb, StandardCharsets.US_ASCII);
-		  
-		  System.out.println(bb[0]);
-		  System.out.println(ss);
-		  
-		  
-	}
+	
+//	public static void main(String[] args) {
+//		
+//		  String string = "0";
+//		  byte[] bytes = string.getBytes(Charset.defaultCharset());
+//		  System.out.println("String: " + string);
+//		  System.out.println("Bytes: " + Arrays.toString(bytes));
+//
+//		  
+//		  
+//		  String s = "4";
+//		  byte[] b = s.getBytes(StandardCharsets.UTF_8);
+//		  
+//		  System.out.println(s);
+//		  System.out.println(b[0]);
+//		  
+//		  
+//
+//		  byte[] bb = {(byte) 37};
+//		  String ss = new String(bb, StandardCharsets.US_ASCII);
+//		  
+//		  System.out.println(bb[0]);
+//		  System.out.println(ss);
+//		  
+//		  
+//	}
 
 }

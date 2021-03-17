@@ -117,19 +117,31 @@ public class Cliente {
 		try {
 			Socket sc = new Socket(HOST, PUERTO);
 			
+			// Escribir a el servidor
+			out = new PrintWriter( sc.getOutputStream(), true); 
+
+			// Leer del servidor 
+			in = new BufferedReader(new InputStreamReader( sc.getInputStream())); 
+			
+			//Lector
 			Scanner scaner = new Scanner(System.in);
 			
 			System.out.println("Escriba el id del cliente (numero)");
 			id = scaner.nextLine();
 			
 			
+			boolean listo=true;
+			while(listo) {
+				System.out.println("Indique cuando este listo para la empezar la recepcion del archivo escribiendo: Listo");
+				 if(scaner.nextLine().equals("Listo")) 
+					 listo=false;
+			}
+			
+			out.println("Listo");
+			
 
-			// Escribir a el servidor
-			out = new PrintWriter( sc.getOutputStream(), true); 
-
-
-			// Leer del servidor 
-			in = new BufferedReader(new InputStreamReader( sc.getInputStream())); 
+			
+			
 
 			System.out.println("Entro");
 

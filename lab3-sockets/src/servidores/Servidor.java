@@ -146,18 +146,29 @@ public class Servidor {
 				//inD = new DataInputStream(clienteSC.getInputStream());
 
 				
-				boolean a=false;
-				
 				//METODO PARA QUE LOS THREAD ENTREN A EL MISMO TIEMPO NO SIRVE
 				System.out.println(numeroDeClientesActuales);
 				System.out.println(NUMERO_CONEXIONES_TOTALES);
 				
+			
+				System.out.println("paso aqui");
 				
-				while(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {	
-					System.out.println("\n");
+				
+				String estado = in.readLine();
+				while (!"Listo".equalsIgnoreCase(estado) && numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) { 
 					
-					
-				}
+				}	
+				System.out.println(estado);
+				
+				
+				
+				
+				
+//				while(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {	
+//					System.out.println("\n");
+//					
+//					
+//				}
 				
 				
 				System.out.println("Salio");					
@@ -309,7 +320,7 @@ public class Servidor {
 
 				System.out.println("\n"+"Indique el numero de clientes a los que archivo quiere enviar el archivo \n");
 
-				numeroConexiones = 1;//Integer.parseInt(scaner.nextLine());
+				numeroConexiones = 2;//Integer.parseInt(scaner.nextLine());
 
 				System.out.println(
 						"Indique que archivo quiere enviar (ESCRIBA EL NUMERO 1,2,3) \n"+
@@ -318,7 +329,7 @@ public class Servidor {
 								"3: Otro (pasar ruta por parametro) \n"
 						);
 
-				String Archivo = "1" ;//scaner.nextLine();
+				String Archivo = "3" ;//scaner.nextLine();
 
 				//Transferir archivo de 100MB
 				if(Archivo.equals("1")) {
@@ -366,75 +377,35 @@ public class Servidor {
 			//Permite que se se pueda utilizar el mismo puerto
 			servidor.setReuseAddress(true);
 			System.out.println("---------------- \n" +"Servidor iniciado \n");
+			
 
-
+			Peticion.NUMERO_CONEXIONES_TOTALES = numeroConexiones;
+			long tamanoArchivo = fichero.length();
+			byte[] arregloBits = getArray(fichero);
+			String hash = getHash(fichero);
 
 
 			//se crea log
-
-			
-			long tamanoArchivo = fichero.length();
-
-			byte[] arregloBits = getArray(fichero);
-
-			String hash = getHash(fichero);
-
-			
-			for (int i = 0; i < 20; i++) {
-				System.out.println("aaaa"+arregloBits[i]);
-			}
-			
-//			File file = new File("/Users/julianoliveros/Cliente1-Prueba-5.pdf");
-//			
-//			File archivo;
-//			
-//			try {
-//				 
-//	            OutputStream os = new FileOutputStream(file);
-//	            
-//	            os.write(arregloBits);
-//	            System.out.println("Write bytes to file.");
-//	            
-//	            printContent(file);
-//	            
-//	            os.close();
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	        }
-			
+			File file = new File("/Users/julianoliveros/"); //TODO Deber ser /logs
 			
 			String log = "";
-
-
+		
 			
 			
-			
-			
-			Peticion.NUMERO_CONEXIONES_TOTALES = numeroConexiones;
-			
-			
-			
+			//While que se queda esperando a que lleguen clientes.
 			while (true) {
 
 
-				
-
+			
 				//Espero a que un cliente se conecte
 				Socket clienteSC = servidor.accept();
 
-				System.out.println("Cliente conectado"+ clienteSC.getInetAddress().getHostAddress());
+				System.out.println("Cliente conectado: "+ clienteSC.getInetAddress().getHostAddress());
 
 
 				Peticion threadCliente = new Peticion(clienteSC,arregloBits, log ,hash,tamanoArchivo); //hash tambien envio, log 
 				threadCliente.start();
-
-
-
-
 			}
-
-
-
 
 
 			//imprime log
