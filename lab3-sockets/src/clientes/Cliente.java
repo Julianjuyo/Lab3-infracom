@@ -19,6 +19,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.FileReader;
 import java.io.FileOutputStream;
+import java.util.Arrays;
+import java.nio.charset.Charset;
+
+
 
 
 public class Cliente {
@@ -139,6 +143,7 @@ public class Cliente {
 			
 			System.out.println("paso aqui"); 
 			
+			
 			while (!"terminoEnvio".equalsIgnoreCase(line)) { 
 
 				
@@ -157,13 +162,20 @@ public class Cliente {
 				
 				
 				
+				
+				
+			
+
+				  
+				  
+				
 				Byte b = (byte) recibido[1].getBytes()[0];
 				
 				int p= Integer.parseInt(recibido[0]);
 				arregloRecibido[p]=b;
 				
 				if(p>(t-100)){
-					System.out.println("el byte recibido"+b);
+					//System.out.println("el byte recibido"+b);
 					// Enviar de usuario a servidor
 				}
 				

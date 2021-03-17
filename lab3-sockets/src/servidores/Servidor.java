@@ -176,7 +176,7 @@ public class Servidor {
 					out.println(i+"_"+arregloByte[i]);
 					
 					if(i>(arregloByte.length-100)) {
-						System.out.println("el byte enviado"+arregloByte[i]);
+						//System.out.println("el byte enviado"+arregloByte[i]);
 					}
 					
 					
@@ -338,7 +338,7 @@ public class Servidor {
 					while(c) {
 						System.out.println("Escriba la ruta del archivo \n");
 						ruta = scaner.nextLine();
-						fichero = new File(ruta);
+						fichero = new File("/Users/julianoliveros/Public/matricula.pdf");
 
 						if(fichero.exists()) { 
 							CargoDatos=true;

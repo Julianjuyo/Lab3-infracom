@@ -2,7 +2,9 @@ package util;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Logger {
@@ -31,6 +33,16 @@ public class Logger {
 		print_line.println(msg);
 		
 		print_line.close();
+	}
+	
+	public static void main(String[] args) {
+		
+		  String string = "0";
+		  byte[] bytes = string.getBytes(Charset.defaultCharset());
+		  System.out.println("String: " + string);
+		  System.out.println("Bytes: " + Arrays.toString(bytes));
+		  System.out.println(bytes.length);
+		  
 	}
 
 }
