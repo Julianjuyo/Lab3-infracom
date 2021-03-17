@@ -1,4 +1,4 @@
-//package servidores;
+package servidores;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -12,6 +12,8 @@ import java.security.*;
 import java.math.BigInteger; 
 import java.security.MessageDigest; 
 import java.security.NoSuchAlgorithmException; 
+
+
 
 
 public class Servidor {
@@ -100,7 +102,7 @@ public class Servidor {
 	private static class Peticion extends Thread{
 
 		private final Socket clienteSC;
-		private final byte[] arregloBits;
+		private final byte[] arregloByte;
 		private final String log;
 		private final String hash;
 		private final long tamanoArchivo;
@@ -112,7 +114,7 @@ public class Servidor {
 
 		public Peticion(Socket sc, byte[] parregloBits, String plog,String phash ,long pTamanoArchivo ) {
 			this.clienteSC= sc;
-			this.arregloBits= parregloBits;
+			this.arregloByte= parregloBits;
 			this.log= plog;
 			this.hash= phash;
 			this.tamanoArchivo= pTamanoArchivo;
@@ -142,58 +144,43 @@ public class Servidor {
 				//inD = new DataInputStream(clienteSC.getInputStream());
 
 				
-				
+				boolean a=false;
 				
 				//METODO PARA QUE LOS THREAD ENTREN A EL MISMO TIEMPO NO SIRVE
-//				System.out.println(numeroDeClientesActuales);
-//				System.out.println(NUMERO_CONEXIONES_TOTALES);
-//				
-//				if(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {
-//					
-//					synchronized (this) {
-//						try {
-//							wait();
-//						}
-//						catch (Exception e) {
-//							e.printStackTrace();
-//						}
-//					}
-//
-//				}
-//				else{
-//					
-//					notifyAll();
-//				}
-//				
-//				System.out.println("Despues"+ numeroDeClientesActuales);
-//				System.out.println("Despues"+ NUMERO_CONEXIONES_TOTALES);
+				System.out.println(numeroDeClientesActuales);
+				System.out.println(NUMERO_CONEXIONES_TOTALES);
 				
 				
+				while(numeroDeClientesActuales < NUMERO_CONEXIONES_TOTALES) {	
+					System.out.println("\n");
+					
+					
+				}
+				
+				
+				System.out.println("Salio");					
 				
 				
 
 				System.out.println("envio el hash ");
+				
 				out.println(hash);
 
 				//01001000 01101111 01101100 01100001
 				
-				byte[] envio = new byte[1];
 				
 				
 				
-				for (int i = 0; i < arregloBits.length; i++) {
+	
+				for (int i = 0; i < arregloByte.length; i++) {
 					
-					//1460
+					//1460					
 					
-					
-					
-					byte[] bytesAEnviar;
-					
-					
-					//out.println();
+					out.println(arregloByte[i]);
 					
 					
 				}
+				out.println("termino");
 
 
 
@@ -314,7 +301,7 @@ public class Servidor {
 
 				System.out.println("\n"+"Indique el numero de clientes a los que archivo quiere enviar el archivo \n");
 
-				numeroConexiones = 3;//Integer.parseInt(scaner.nextLine());
+				numeroConexiones = 2;//Integer.parseInt(scaner.nextLine());
 
 				System.out.println(
 						"Indique que archivo quiere enviar (ESCRIBA EL NUMERO 1,2,3) \n"+
@@ -383,28 +370,14 @@ public class Servidor {
 
 			String hash = getHash(fichero);
 
-			String log="";
+			
+			
+			String log = "";
 
 
-			//Siempre estara escuchando peticiones
 
-
-//			File file = new File("/Users/julianoliveros/duplicado.pdf");
-//			
-//			
-//			try {
-//				 
-//	            OutputStream os = new FileOutputStream(file);
-//	            
-//	            os.write(arregloBits);
-//	            System.out.println("Write bytes to file.");
-//	            
-//	            printContent(file);
-//	            
-//	            os.close();
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	        }
+			System.out.println(arregloBits[0]);
+			
 			
 			
 			

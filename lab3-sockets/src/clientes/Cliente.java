@@ -129,6 +129,34 @@ public class Cliente {
 			
 			
 			
+			// Intercambio de texto
+			Scanner scaner = new Scanner(System.in); 
+
+
+			
+			while (!"terminoEnvio".equalsIgnoreCase(line)) { 
+
+				// Leer por consola
+				line = scaner.nextLine(); 
+
+				Byte[] arreglo = line.getBytes();
+				
+				
+				// Enviar de usuario a servidor
+				out.println(line); 
+				out.flush(); 
+
+				
+				// displaying server reply 
+				//System.out.println("Server replied " + in.readLine()); 
+			} 
+
+
+			// cerrar socket
+			sc.close(); 
+			
+			
+			
 			File file = new File("c:\\ArchivosRecibidos/Cliente1-Prueba-5.txt");
 			
 			
@@ -184,26 +212,7 @@ public class Cliente {
 			
 		    
 			
-//			// Intercambio de texto
-//			Scanner scaner = new Scanner(System.in); 
-//			String line2 = null; 
-//
-//			while (!"exit".equalsIgnoreCase(line2)) { 
-//
-//				// Leer por consola
-//				line2 = scaner.nextLine(); 
-//
-//				// Enviar de usuario a servidor
-//				out.println(line2); 
-//				out.flush(); 
-//
-//				// displaying server reply 
-//				System.out.println("Server replied " + in.readLine()); 
-//			} 
-//
-//
-//			// cerrar socket
-//			sc.close(); 
+
 
 
 		} catch (IOException ex) {
