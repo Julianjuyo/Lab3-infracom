@@ -148,11 +148,21 @@ public class Servidor {
 				out.println(tamanoArchivo);
 				System.out.println("envio el tamanoArchivo");
 				
+				
+				
+				
+				//file unptu stream
+				//file.read (tamano)
+				
+				
+				
 				//Se comienza el envio del rchivo
 				System.out.println("Comenzo a enviar archivo ");
 				for (int i = 0; i < arregloByte.length; i++) {
 					//1460	 
 					out.println(i+"_"+arregloByte[i]);
+					
+					
 //					byte[] bb = {(byte) arregloByte[i]};
 //					System.out.println("aaaa:"+bb[0]);
 //					
