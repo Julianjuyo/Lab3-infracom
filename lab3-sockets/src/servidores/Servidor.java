@@ -231,39 +231,11 @@ public class Servidor {
 				
 		         // Se lee el mensaje de petici�n de fichero del cliente.
 	            ObjectInputStream ois = new ObjectInputStream(clienteSC.getInputStream());
-	            
-	            Object mensaje;
-	            
-				try {
-					mensaje = ois.readObject();
-					
-	
-	            
-	            // Si el mensaje es de petici�n de fichero
-					
-	            if (mensaje instanceof MensajeDameFichero)
-	            {
-	                // Se muestra en pantalla el fichero pedido y se envia
-	                //System.out.println("Me piden: "+ ((MensajeDameFichero) mensaje).nombreFichero);
+	                    
 	                
-	                
-	                enviaFichero(path, new ObjectOutputStream(clienteSC.getOutputStream()));
-	                
-	            }
-	            else
-	            {
-	                // Si no es el mensaje esperado, se avisa y se sale todo.
-	                System.err.println ( "Mensaje no esperado "+mensaje.getClass().getName());
-	            }
-	            
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+	            enviaFichero(path, new ObjectOutputStream(clienteSC.getOutputStream()));
 
-				
-				
+	            
 				//file unptu stream
 				//file.read (tamano)
 

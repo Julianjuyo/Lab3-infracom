@@ -187,14 +187,10 @@ public class Cliente {
             ObjectOutputStream oos = new ObjectOutputStream(sc.getOutputStream());
             
             String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos";
-            MensajeDameFichero mensaje = new MensajeDameFichero();
             
-            mensaje.nombreFichero = pathNuevoArchvio+"/Cliente"+id+"-Prueba"+numeroDeConexiones+".pdf";
-            
-            oos.writeObject(mensaje);
-
+ 
             // Se abre un fichero para empezar a copiar lo que se reciba.
-            FileOutputStream fos = new FileOutputStream(pathNuevoArchvio+"/Cliente"+id+"-Prueba"+numeroDeConexiones+".pdf");
+            FileOutputStream fos = new FileOutputStream(pathNuevoArchvio+"/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo);
             
             
             // Se crea un ObjectInputStream del socket para leer los mensajes
@@ -205,12 +201,12 @@ public class Cliente {
             MensajeTomaFichero mensajeRecibido;
             Object mensajeAux;
             
+            
             try {
             	
             do
             {
                 // Se lee el mensaje en una variabla auxiliar
-                
 					mensajeAux = ois.readObject();
 		
                 
@@ -238,10 +234,11 @@ public class Cliente {
             
             long endTime = System.currentTimeMillis() - startTime;
             System.out.println("tarde:"+endTime);
+            
             // Se cierra socket y fichero
             fos.close();
             ois.close();
-            sc.close();
+            //sc.close();
 			
 			
     		} catch (ClassNotFoundException e) {
@@ -307,9 +304,13 @@ public class Cliente {
             
 
 			//ruta donde creara el archivo 
+            
 			//File file = new File("H:/Desktop/Cliente"+id+"-Prueba-5.pdf");
-//			File file = new File("/Users/julianoliveros/Cliente"+id+"-Prueba-5.pdf");
-//			
+			//File file = new File("/Users/julianoliveros/Cliente"+id+"-Prueba-5.pdf");
+			
+            
+//            byte[] arregloRecibido = getArray(file);
+//            
 //			try {
 //
 //				OutputStream os = new FileOutputStream(file);
@@ -334,9 +335,9 @@ public class Cliente {
 //			else {
 //				System.out.println("\n"+"EL VALOR CALCULADO PARA EL HASH DEL ARHCIVO ES CORRECTO"+"\n");
 //			}
-//			
-//			// cerrar socket
-//			sc.close(); 
+			
+			// cerrar socket
+			sc.close(); 
 
 
 
