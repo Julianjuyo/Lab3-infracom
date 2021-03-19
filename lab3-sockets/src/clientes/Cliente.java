@@ -171,8 +171,6 @@ public class Cliente {
 			System.out.println("recibo path: "+ path);
 			System.out.println("recibido Tipo Archivo: "+tipoDeArchivo);
 			
-			
-			
 			//recibe el numero de conexiones
 			line= in.readLine();
 			int numeroDeConexiones = Integer.parseInt(line);
@@ -182,15 +180,11 @@ public class Cliente {
             long startTime = System.currentTimeMillis();
             
             
-
-            // Se envia un mensaje de petición de fichero.
-            ObjectOutputStream oos = new ObjectOutputStream(sc.getOutputStream());
-            
-            String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos";
+            String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
             
  
             // Se abre un fichero para empezar a copiar lo que se reciba.
-            FileOutputStream fos = new FileOutputStream(pathNuevoArchvio+"/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo);
+            FileOutputStream fos = new FileOutputStream(pathNuevoArchvio);
             
             
             // Se crea un ObjectInputStream del socket para leer los mensajes
@@ -198,7 +192,7 @@ public class Cliente {
             ObjectInputStream ois = new ObjectInputStream(sc.getInputStream());
  
             
-            MensajeTomaFichero mensajeRecibido;
+            MetodoAuxiliarEnvioDeDatos mensajeRecibido;
             Object mensajeAux;
             
             
@@ -209,134 +203,52 @@ public class Cliente {
                 // Se lee el mensaje en una variabla auxiliar
 					mensajeAux = ois.readObject();
 		
-                
                 // Si es del tipo esperado, se trata
-                if (mensajeAux instanceof MensajeTomaFichero)
+                if (mensajeAux instanceof MetodoAuxiliarEnvioDeDatos)
                 {
-                    mensajeRecibido = (MensajeTomaFichero) mensajeAux;
-                    // Se escribe en pantalla y en el fichero
-                    // System.out.print(new String(
-                    // mensajeRecibido.contenidoFichero, 0,
-                    // mensajeRecibido.bytesValidos));
+                    mensajeRecibido = (MetodoAuxiliarEnvioDeDatos) mensajeAux;
                     
-                    fos.write(mensajeRecibido.contenidoFichero, 0,
-                            mensajeRecibido.bytesValidos);
-                } else
+                    fos.write(mensajeRecibido.contenidoFichero, 0,mensajeRecibido.bytesValidos);
+                } 
+                else
                 {
                     // Si no es del tipo esperado, se marca error y se termina
                     // el bucle
-                    System.err.println("Mensaje no esperado "
-                            + mensajeAux.getClass().getName());
+                    System.err.println("Mensaje no esperado "+ mensajeAux.getClass().getName());
                     break;
                 }
             } while (!mensajeRecibido.ultimoMensaje);
             
-            
-            long endTime = System.currentTimeMillis() - startTime;
-            System.out.println("tarde:"+endTime);
-            
+           
+  
             // Se cierra socket y fichero
             fos.close();
             ois.close();
-            //sc.close();
-			
 			
     		} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
-			// Intercambio de texto NUESTRO
-//			byte[] arregloRecibido= new byte[t]; 
-//			String[] recibido;
-//
-//			int mayor=0;
-//			
-//			//long startTime = System.currentTimeMillis();
-//			
-//			
-//			while (!"terminoEnvio".equalsIgnoreCase(line)) { 
-//
-//
-//				//System.out.println("entro");
-//
-//				// Leer por consola
-//				line = in.readLine();
-//				
-//				if(line.getBytes().length> mayor) {
-//					
-//					mayor= line.getBytes().length;
-//				}
-//				
-//				if(line.equals("terminoEnvio")) {
-//					continue;
-//				}
-//				recibido =  line.split("_"); 
-//
-//				//				System.out.println("1:"+recibido[0]);
-//				//				System.out.println("2:"+recibido[1]);
-//				int s = Integer.parseInt(recibido[1]);
-//
-//				byte[] bb = {(byte) s};
-//
-//				//				System.out.println("3:"+bb[0]);
-//
-//
-//				int p= Integer.parseInt(recibido[0]);
-//				arregloRecibido[p]=bb[0];
-//
-//				//				System.out.println("4:"+arregloRecibido[p]);
-//
-//
-//
-//				// displaying server reply 
-//				//System.out.println("Server replied " + in.readLine()); 
-//			} 
-//
-//
-//			long endTime = System.currentTimeMillis() - startTime; 
-//			System.out.println("El tiempo que tardo fue de:"+endTime);
-//			System.out.println("EL mayor es:"+mayor);
 
             
+            File fichero = new File(pathNuevoArchvio);
             
+            
+			//Se verifica que el hash sea el mismo
+			String hashArchivoNuevo =  getHash(fichero);
 
-			//ruta donde creara el archivo 
-            
-			//File file = new File("H:/Desktop/Cliente"+id+"-Prueba-5.pdf");
-			//File file = new File("/Users/julianoliveros/Cliente"+id+"-Prueba-5.pdf");
+			if(!hashArchivoNuevo.equals(hashRecibido)) {
+				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
+			}
+			else {
+				System.out.println("\n"+"EL VALOR CALCULADO PARA EL HASH DEL ARHCIVO ES CORRECTO"+"\n");
+			}
 			
+	
             
-//            byte[] arregloRecibido = getArray(file);
-//            
-//			try {
-//
-//				OutputStream os = new FileOutputStream(file);
-//
-//				os.write(arregloRecibido);
-//				System.out.println("Write bytes to file.");
-//
-//				printContent(file);
-//
-//				os.close();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//
-//
-//			//Se verifica que el hash sea el mismo
-//			String hashArchivoRecibido =  getHash(file);
-//
-//			if(!hashArchivoRecibido.equals(hashRecibido)) {
-//				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
-//			}
-//			else {
-//				System.out.println("\n"+"EL VALOR CALCULADO PARA EL HASH DEL ARHCIVO ES CORRECTO"+"\n");
-//			}
-			
-			// cerrar socket
+            long endTime = System.currentTimeMillis() - startTime;
+            System.out.println("Se demoro: "+endTime+" milisegundos en enviar el archivo");
+            
 			sc.close(); 
 
 

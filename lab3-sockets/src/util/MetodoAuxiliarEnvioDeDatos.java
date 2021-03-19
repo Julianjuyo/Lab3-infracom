@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author Javier Abell�n
  *
  */
-public class MensajeTomaFichero implements Serializable
+public class MetodoAuxiliarEnvioDeDatos implements Serializable
 {
     /** Nombre del fichero que se transmite. Por defecto "" */
     public String nombreFichero="";
