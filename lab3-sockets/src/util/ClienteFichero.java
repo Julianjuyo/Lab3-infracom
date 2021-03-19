@@ -64,6 +64,7 @@ public class ClienteFichero
             mensaje.nombreFichero = fichero;
             oos.writeObject(mensaje);
 
+
             // Se abre un fichero para empezar a copiar lo que se reciba.
             FileOutputStream fos = new FileOutputStream(mensaje.nombreFichero
                     + "_copia");
@@ -84,9 +85,9 @@ public class ClienteFichero
                 {
                     mensajeRecibido = (MensajeTomaFichero) mensajeAux;
                     // Se escribe en pantalla y en el fichero
-//                    System.out.print(new String(
-//                            mensajeRecibido.contenidoFichero, 0,
-//                            mensajeRecibido.bytesValidos));
+                    // System.out.print(new String(
+                    // mensajeRecibido.contenidoFichero, 0,
+                    // mensajeRecibido.bytesValidos));
                     
                     fos.write(mensajeRecibido.contenidoFichero, 0,
                             mensajeRecibido.bytesValidos);

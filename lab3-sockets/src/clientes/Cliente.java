@@ -1,6 +1,5 @@
 package clientes;
 
-
 import java.io.BufferedReader;
 import java.security.*;
 import java.io.DataInputStream;
@@ -149,44 +148,59 @@ public class Cliente {
 			boolean listo=true;
 			while(listo) {
 				System.out.println("Indique cuando este listo para la empezar la recepcion del archivo escribiendo: Listo");
+				
 				if(scaner.nextLine().equals("Listo")) 
 					listo=false;
 			}
 			out.println("Listo");
 
 
-			System.out.println("Esperando Hash");
+			
 			//Comienza Transferencia de Archivos
+			
+			//recibe el hash
 			String line = in.readLine();
 			String hashRecibido = line;
-			System.out.println("recibo Hash"+hashRecibido);
+			System.out.println("recibo Hash: "+hashRecibido);
 
+			//recibe el path
 			line= in.readLine();
-			String tamano = line;
-			int t= Integer.parseInt(tamano);
-			System.out.println("recibo tamano"+t);
+			String path = line;
+			String[] split =  path.split("\\.");
+			String tipoDeArchivo =  split[1]; 
+			System.out.println("recibo path: "+ path);
+			System.out.println("recibido Tipo Archivo: "+tipoDeArchivo);
+			
+			
+			
+			//recibe el numero de conexiones
+			line= in.readLine();
+			int numeroDeConexiones = Integer.parseInt(line);
+			System.out.println("recibo numeroDeConexiones: "+ numeroDeConexiones);
 
 
             long startTime = System.currentTimeMillis();
-          
+            
             
 
-            // Se env�a un mensaje de petici�n de fichero.
+            // Se envia un mensaje de petición de fichero.
             ObjectOutputStream oos = new ObjectOutputStream(sc.getOutputStream());
             
+            String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos";
             MensajeDameFichero mensaje = new MensajeDameFichero();
-            mensaje.nombreFichero = "/Users/julianoliveros/Public/matricula.pdf";
+            
+            mensaje.nombreFichero = pathNuevoArchvio+"/Cliente"+id+"-Prueba"+numeroDeConexiones+".pdf";
             
             oos.writeObject(mensaje);
 
-
             // Se abre un fichero para empezar a copiar lo que se reciba.
-            FileOutputStream fos = new FileOutputStream(mensaje.nombreFichero
-                    + "_copia");
-
+            FileOutputStream fos = new FileOutputStream(pathNuevoArchvio+"/Cliente"+id+"-Prueba"+numeroDeConexiones+".pdf");
+            
+            
             // Se crea un ObjectInputStream del socket para leer los mensajes
             // que contienen el fichero.
             ObjectInputStream ois = new ObjectInputStream(sc.getInputStream());
+ 
             
             MensajeTomaFichero mensajeRecibido;
             Object mensajeAux;
@@ -220,6 +234,7 @@ public class Cliente {
                     break;
                 }
             } while (!mensajeRecibido.ultimoMensaje);
+            
             
             long endTime = System.currentTimeMillis() - startTime;
             System.out.println("tarde:"+endTime);

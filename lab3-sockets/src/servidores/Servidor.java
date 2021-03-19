@@ -1,5 +1,6 @@
 package servidores;
 
+import java.beans.beancontext.BeanContextServiceProviderBeanInfo;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.*;
@@ -13,6 +14,9 @@ import java.security.*;
 import java.math.BigInteger; 
 import java.security.MessageDigest; 
 import java.security.NoSuchAlgorithmException; 
+import java.nio.file.spi.FileTypeDetector;
+import java.lang.Object;
+
 
 
 
@@ -106,12 +110,14 @@ public class Servidor {
         try
         {
             boolean enviadoUltimo=false;
+            
             // Se abre el fichero.
             FileInputStream fis = new FileInputStream(fichero);
             
             // Se instancia y rellena un mensaje de envio de fichero
             MensajeTomaFichero mensaje = new MensajeTomaFichero();
             mensaje.nombreFichero = fichero;
+            
             
             // Se leen los primeros bytes del fichero en un campo del mensaje
             int leidos = fis.read(mensaje.contenidoFichero);
@@ -175,7 +181,8 @@ public class Servidor {
 		private final byte[] arregloByte;
 		private final String log;
 		private final String hash;
-		private final long tamanoArchivo;
+		private final String path;
+		private final int  numeroDeConexciones;
 		
 //		private static int numeroDeClientesActuales = 0;
 //		private static int NUMERO_CONEXIONES_TOTALES = 0;
@@ -183,13 +190,14 @@ public class Servidor {
 
 	  
 
-		public Peticion(Socket sc, String pidCliente ,byte[] parregloBits, String plog,String phash ,long pTamanoArchivo ) {
+		public Peticion(Socket sc, String pidCliente ,byte[] parregloBits, String plog,String phash ,String ppath, int  pnumeroDeConexciones ) {
 			this.clienteSC= sc;
 			this.idCliente=pidCliente;
 			this.arregloByte= parregloBits;
 			this.log= plog;
 			this.hash= phash;
-			this.tamanoArchivo= pTamanoArchivo;
+			this.path= ppath;
+			this.numeroDeConexciones =  pnumeroDeConexciones;
 		}
 
 		public void run() 
@@ -206,19 +214,22 @@ public class Servidor {
 				in = new BufferedReader( new InputStreamReader(clienteSC.getInputStream())); 
 				
 			
-				System.out.println("Comenzo Thread:"+idCliente);
+				System.out.println("Comenzo Thread: "+idCliente);
 						
 				//Se enviua el hash del archvio
 				out.println(hash);
 				System.out.println("envio el hash ");
 				
-				//Se envia el tamano del archivo
-				out.println(tamanoArchivo);
-				System.out.println("envio el tamanoArchivo");
+				//Se envia el path
+				out.println(path);
+				System.out.println("envio el path");
+				
+				//Se envia el numero de conexciones
+				out.println(numeroDeConexciones);
+				System.out.println("envio el # conecciones");
 				
 				
-				
-		           // Se lee el mensaje de petici�n de fichero del cliente.
+		         // Se lee el mensaje de petici�n de fichero del cliente.
 	            ObjectInputStream ois = new ObjectInputStream(clienteSC.getInputStream());
 	            
 	            Object mensaje;
@@ -233,18 +244,16 @@ public class Servidor {
 	            if (mensaje instanceof MensajeDameFichero)
 	            {
 	                // Se muestra en pantalla el fichero pedido y se envia
-	                System.out.println("Me piden: "
-	                        + ((MensajeDameFichero) mensaje).nombreFichero);
+	                //System.out.println("Me piden: "+ ((MensajeDameFichero) mensaje).nombreFichero);
 	                
-	                enviaFichero(((MensajeDameFichero) mensaje).nombreFichero,
-	                        new ObjectOutputStream(clienteSC.getOutputStream()));
+	                
+	                enviaFichero(path, new ObjectOutputStream(clienteSC.getOutputStream()));
 	                
 	            }
 	            else
 	            {
 	                // Si no es el mensaje esperado, se avisa y se sale todo.
-	                System.err.println (
-	                        "Mensaje no esperado "+mensaje.getClass().getName());
+	                System.err.println ( "Mensaje no esperado "+mensaje.getClass().getName());
 	            }
 	            
 				} catch (ClassNotFoundException e) {
@@ -390,8 +399,25 @@ public class Servidor {
 			System.out.println("---------------- \n" +"Servidor iniciado \n");
 
 			
-			long tamanoArchivo = fichero.length();
+			String path = fichero.getPath();
+		
+			System.out.println(path);
+			
+			
+			String tipodeArchivo = "";
+				
+			
+			//FileTypeDetector ad = new	FileTypeDetector();
+			
+			String[] recibido =  path.split("/"); 
+			System.out.println(recibido.toString() );
+			System.out.println(recibido[0].toString());
+			System.out.println(recibido[1].toString());
+			
+			
+			
 			byte[] arregloBits = getArray(fichero);
+			
 			String hash = getHash(fichero);
 
 
@@ -422,7 +448,7 @@ public class Servidor {
 					estado++;					
 				}
 				
-				Peticion threadCliente = new Peticion(clienteSC,idCliente,arregloBits, log ,hash,tamanoArchivo); //hash tambien envio, log 
+				Peticion threadCliente = new Peticion(clienteSC,idCliente,arregloBits, log ,hash,path,numeroConexiones); //hash tambien envio, log 
 				Clientes.add(threadCliente); 
 				
 				if(Clientes.size()== numeroConexiones && estado== numeroConexiones){

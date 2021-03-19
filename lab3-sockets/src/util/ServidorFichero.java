@@ -100,6 +100,7 @@ public class ServidorFichero
             
             // Se instancia y rellena un mensaje de envio de fichero
             MensajeTomaFichero mensaje = new MensajeTomaFichero();
+            
             mensaje.nombreFichero = fichero;
             
             // Se leen los primeros bytes del fichero en un campo del mensaje
@@ -112,8 +113,8 @@ public class ServidorFichero
                 // Se rellena el n�mero de bytes leidos
                 mensaje.bytesValidos = leidos;
                 
-                // Si no se han leido el m�ximo de bytes, es porque el fichero
-                // se ha acabado y este es el �ltimo mensaje
+                // Si no se han leido el maximo de bytes, es porque el fichero
+                // se ha acabado y este es el ultimo mensaje
                 if (leidos < MensajeTomaFichero.LONGITUD_MAXIMA)
                 {
                     mensaje.ultimoMensaje = true;
