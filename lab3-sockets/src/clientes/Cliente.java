@@ -35,6 +35,7 @@ import util.*;
 public class Cliente {
 
 
+	
 
 	/**
 	 * Convierte en un arreglo de bits un archivo 
@@ -130,7 +131,8 @@ public class Cliente {
 			while(listo) {
 				System.out.println("Indique cuando este listo para la empezar la recepcion del archivo escribiendo: Listo");
 				
-				if(scaner.nextLine().equals("Listo")) 
+				String ComprbanteDeEnvio= scaner.nextLine();//"Listo";//
+				if(ComprbanteDeEnvio.equals("Listo")) 
 					listo=false;
 			}
 			out.println("Listo");
@@ -211,7 +213,7 @@ public class Cliente {
 				e.printStackTrace();
 			}
 
-            
+            		
             File fichero = new File(pathNuevoArchvio);
             
             

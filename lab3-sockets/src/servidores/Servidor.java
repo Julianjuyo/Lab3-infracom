@@ -49,7 +49,8 @@ public class Servidor {
 			int bytesCount = 0; 
 			bytesCount = fis.read(byteArray);
 			fis.close();
-			System.out.println("El archivo " + file.getName() + " tiene " + bytesCount +" bytes."+"\n");
+			System.out.println("El archivo " + file.getName() +
+					" tiene " + bytesCount +" bytes."+"\n");
 
 		} catch (Exception e) {
 			System.out.println("Problemas al convertir el archivo a bytes: "+ e.getMessage());
