@@ -18,12 +18,16 @@ import java.nio.file.spi.FileTypeDetector;
 import java.lang.Object;
 
 
-
-
-
+/**
+ * Clase que representa un servidor
+ * 
+ * @author julianoliveros
+ *
+ */
 public class Servidor {
 
 	//private final static String RUTA1="H:/Desktop/Laboratorio3TCP.pdf";
+	
 	private final static String RUTA1="/Users/julianoliveros/Public/matricula.pdf";
 	private final static String RUTA2="/Users/julianoliveros/250MBcopy.zip";
 	private static File fichero;
@@ -81,26 +85,7 @@ public class Servidor {
 		} 
 	} 
 
-
-
-	/**
-	 * 
-	 * @param file
-	 * @throws Exception
-	 */
-	public static void printContent(File file) throws Exception {
-		System.out.println("Print File Content");
-		BufferedReader br = new BufferedReader(new FileReader(file));
-
-		String line = null;
-		//        while ((line = br.readLine()) != null) {
-		//            System.out.println(line);
-		//        }
-
-		br.close();
-	}
-
-
+	
 	/**
 	 * Clase que crear un thread por cada peticion
 	 * @author julianoliveros

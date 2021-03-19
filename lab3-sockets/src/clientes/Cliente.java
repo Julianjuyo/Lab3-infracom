@@ -85,25 +85,6 @@ public class Cliente {
 
 
 	/**
-	 * 
-	 * @param file
-	 * @throws Exception
-	 */
-	public static void printContent(File file) throws Exception {
-		System.out.println("Print File Content");
-		BufferedReader br = new BufferedReader(new FileReader(file));
-
-		String line = null;
-//		while ((line = br.readLine()) != null) {
-//			System.out.println(line);
-//		}
-
-		br.close();
-	}
-
-
-
-	/**
 	 * Main de la clase cliente 
 	 * @param args
 	 */
