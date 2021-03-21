@@ -30,7 +30,7 @@ public class Logger {
 	
 	public void log(String msg) throws IOException{
 		
-		FileWriter write = new FileWriter(PATH + "this.name", append_to_file);
+		FileWriter write = new FileWriter(PATH + this.name , append_to_file);
 		PrintWriter print_line= new PrintWriter(write);
 		
 		long millis=System.currentTimeMillis();
