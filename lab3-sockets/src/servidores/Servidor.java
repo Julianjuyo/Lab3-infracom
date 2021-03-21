@@ -33,7 +33,7 @@ public class Servidor {
 	private final static String RUTA1="/Users/julianoliveros/Public/matricula.pdf";
 	private final static String RUTA2="/Users/julianoliveros/250MBcopy.zip";
 	private static File fichero;
-
+	private static util.Logger logger;
 
 
 	/**
@@ -98,13 +98,13 @@ public class Servidor {
 
 		private final Socket clienteSC;
 		private String  idCliente;
-		private final String log;
+		private final util.Logger log;
 		private final String hash;
 		private final String path;
 		private final int  numeroDeConexciones;
 
 		
-		public Peticion(Socket sc, String pidCliente, String plog,String phash ,String ppath, int  pnumeroDeConexciones ) {
+		public Peticion(Socket sc, String pidCliente, util.Logger plog,String phash ,String ppath, int  pnumeroDeConexciones ) {
 			this.clienteSC= sc;
 			this.idCliente=pidCliente;
 			this.log= plog;
@@ -197,6 +197,15 @@ public class Servidor {
 					oos.writeObject(mensaje);
 				}
 				// Se cierra el ObjectOutputStream
+				String ms=in.readLine();
+				if(ms.equals("Correcto")){
+					this.log.log("El archivo se envio correctamente al cliente " +idCliente );
+				}else{
+					this.log.log("El archivo no se envio correctamente al cliente " + idCliente);
+				}
+				ms=in.readLine();
+					this.log.log("La petición del cliente " + idCliente + " se proceso en " + ms );
+				
 				oos.close();
 
 
@@ -315,14 +324,14 @@ public class Servidor {
 
 			
 			//se crea log
-			File file = new File("/Users/julianoliveros/"); //TODO Deber ser /logs
-			String log = "";
+			
+			
 
 			
 			//alamceno info de cada socket			
 			ArrayList<Peticion> Clientes = new ArrayList<>();
 			int estado=0;
-
+			logger= new util.Logger(numeroConexiones, fichero.getName(), fichero.length());
 			//While que se queda esperando a que lleguen clientes.
 			while (true) {
 
@@ -341,7 +350,7 @@ public class Servidor {
 					estado++;					
 				}
 
-				Peticion threadCliente = new Peticion(clienteSC,idCliente, log ,hash,path,numeroConexiones); //hash tambien envio, log 
+				Peticion threadCliente = new Peticion(clienteSC,idCliente, logger ,hash,path,numeroConexiones); //hash tambien envio, log 
 				Clientes.add(threadCliente); 
 
 				if(Clientes.size()== numeroConexiones && estado== numeroConexiones){

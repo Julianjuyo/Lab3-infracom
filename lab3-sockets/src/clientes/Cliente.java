@@ -202,7 +202,7 @@ public class Cliente {
                 }
             } while (!mensajeRecibido.ultimoMensaje);
             
-           
+			
   
             // Se cierra socket y fichero
             fos.close();
@@ -221,20 +221,23 @@ public class Cliente {
 			String hashArchivoNuevo =  getHash(fichero);
 
 			if(!hashArchivoNuevo.equals(hashRecibido)) {
-				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
+				System.out.println("Correcto");
+				out.println("Correcto");
 			}
 			else {
-				System.out.println("\n"+"EL VALOR CALCULADO PARA EL HASH DEL ARHCIVO ES CORRECTO"+"\n");
+				System.out.println("Error");
+				out.println("Error");
 			}
 			
 	
             
             long endTime = System.currentTimeMillis() - startTime;
+
             System.out.println("Se demoro: "+endTime+" milisegundos en enviar el archivo");
-            
+            out.println(endTime);
 			sc.close(); 
 
-
+			out.close();
 
 		} catch (IOException ex) {
 

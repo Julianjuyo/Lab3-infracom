@@ -1,5 +1,6 @@
 package util;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
@@ -11,11 +12,11 @@ import java.util.Date;
 public class Logger {
 	
 	private String PATH="/logs/";
-	private boolean append_to_file = false;
+	private boolean append_to_file = true;
 	private String name  ;
+
 	
-	
-	public Logger(int numRequest ) {
+	public Logger(int numRequest, String name, long l ) {
 		long millis= System.currentTimeMillis();
 		Date date= new Date(millis);
 		this.name= date.getYear() + "-" ;
@@ -24,7 +25,27 @@ public class Logger {
 		this.name += date.getHours() +"-";
 		this.name += date.getMinutes() +"-";
 		this.name += date.getSeconds() +".txt";
+		PrintWriter pw = null;
+		FileWriter archivo = null;
+		try{
+			File fichero = new File (PATH + this.name);
+			fichero.createNewFile();
+			archivo = new FileWriter(PATH + this.name ,true);
+			pw = new PrintWriter(archivo);
+			pw.println("Log iniciado el " + this.name);
+			pw.println("Archivo a pasar " + name);
+			pw.println("Tamanio del archivo " + l);
+			pw.println("Numero de clientes: " + numRequest);
 
+			pw.close();
+
+			
+
+		}
+		catch(Exception e){
+			System.out.println("problemas al hacer el log.");
+		}
+		
 
 	}
 	
