@@ -1,4 +1,4 @@
-package util;
+package ServidorCopy;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,7 +11,8 @@ import java.util.Date;
 
 public class Logger {
 	
-	private String PATH="/logs/";
+	private String PATH="/home/infracom/Lab3-infracom/lab3-sockets/logs/";
+	//private String PATH="/Users/julianoliveros/Public";
 	private boolean append_to_file = true;
 	private String name  ;
 
@@ -36,10 +37,7 @@ public class Logger {
 			pw.println("Archivo a pasar " + name);
 			pw.println("Tamanio del archivo " + l);
 			pw.println("Numero de clientes: " + numRequest);
-
 			pw.close();
-
-			
 
 		}
 		catch(Exception e){

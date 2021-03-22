@@ -1,4 +1,4 @@
-package clientes;
+package ClienteCopy;
 
 
 import java.security.*;
@@ -22,8 +22,8 @@ public class Clientecopy {
 	public final static int LONGITUD_MAXIMA=1460;
 
 	//Host del servidor
-	//private final String HOST = "192.168.97.112";
-	private final String HOST = "localhost";
+	private final String HOST = "192.168.97.112";
+	//private final String HOST = "localhost";
 
 	//Puerto del servidor
 	private final int PUERTO =61101;
@@ -153,8 +153,10 @@ public class Clientecopy {
 			long startTime = System.currentTimeMillis();
 
 
-			String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
+			//String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
 
+			String pathNuevoArchvio ="/home/infracom/Lab3-infracom/lab3-sockets/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
+			
 			InputStream is;
 			BufferedInputStream bis;
 			FileOutputStream fos   ;
@@ -244,9 +246,6 @@ public class Clientecopy {
 
 		System.out.println("Tamano Fichero Transferido: "+fichero.length());
 		System.out.println("Tamano Fichero Transferido: "+fichero.getPath());
-		
-		
-		
 		
 		//Se verifica que el hash sea el mismo
 		String hashArchivoNuevo =  getHash(fichero);

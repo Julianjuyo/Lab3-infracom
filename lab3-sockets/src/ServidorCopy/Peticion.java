@@ -30,7 +30,7 @@ public class Peticion extends Thread{
 
 	private final Socket clienteSC;
 	private String  idCliente;
-	private final util.Logger log;
+	private final ServidorCopy.Logger log;
 	private final String hash;
 	private final String path;
 	private final int tamanoArchvio;
@@ -40,7 +40,7 @@ public class Peticion extends Thread{
 
 
 
-	public Peticion(Socket sc, String pidCliente, util.Logger plog,String phash ,String ppath, int  pnumeroDeConexciones, int ptamanoArchvio ) {
+	public Peticion(Socket sc, String pidCliente, ServidorCopy.Logger plog,String phash ,String ppath, int  pnumeroDeConexciones, int ptamanoArchvio ) {
 		this.clienteSC= sc;
 		this.idCliente=pidCliente;
 		this.log = plog;

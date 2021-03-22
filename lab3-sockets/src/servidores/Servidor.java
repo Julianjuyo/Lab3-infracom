@@ -27,13 +27,14 @@ import java.lang.Object;
 public class Servidor {
 
 	//private final static String RUTA1="H:/Desktop/Laboratorio3TCP.pdf";
-	//private final static String RUTA1="/home/infracom/Lab3-infracom/Archivos/250MB.zip";
-	//private final static String RUTA2="/home/infracom/Lab3-infracom/Archivos/100MB.zip";
+	private final static String RUTA1="/home/infracom/Lab3-infracom/Archivos/100MB.zip";
+	private final static String RUTA2="/home/infracom/Lab3-infracom/Archivos/2500MB.zip";
 	
-	private final static String RUTA1="/Users/julianoliveros/Public/matricula.pdf";
-	private final static String RUTA2="/Users/julianoliveros/250MBcopy.zip";
+	//private final static String RUTA1="/Users/julianoliveros/Public/matricula.pdf";
+	//private final static String RUTA2="/Users/julianoliveros/250MBcopy.zip";
+	
 	private static File fichero;
-	private static util.Logger logger;
+	private static ServidorCopy.Logger logger;
 
 
 	/**
@@ -98,13 +99,13 @@ public class Servidor {
 
 		private final Socket clienteSC;
 		private String  idCliente;
-		private final util.Logger log;
+		private final ServidorCopy.Logger log;
 		private final String hash;
 		private final String path;
 		private final int  numeroDeConexciones;
 
 		
-		public Peticion(Socket sc, String pidCliente, util.Logger plog,String phash ,String ppath, int  pnumeroDeConexciones ) {
+		public Peticion(Socket sc, String pidCliente, ServidorCopy.Logger plog,String phash ,String ppath, int  pnumeroDeConexciones ) {
 			this.clienteSC= sc;
 			this.idCliente=pidCliente;
 			this.log= plog;
@@ -331,7 +332,7 @@ public class Servidor {
 			//alamceno info de cada socket			
 			ArrayList<Peticion> Clientes = new ArrayList<>();
 			int estado=0;
-			logger= new util.Logger(numeroConexiones, fichero.getName(), fichero.length());
+			logger= new ServidorCopy.Logger(numeroConexiones, fichero.getName(), fichero.length());
 			//While que se queda esperando a que lleguen clientes.
 			while (true) {
 
