@@ -21,6 +21,22 @@ public class Clientecopy {
 
 	public final static int LONGITUD_MAXIMA=1460;
 
+	//Host del servidor
+	//private final String HOST = "192.168.97.112";
+	private final String HOST = "localhost";
+
+	//Puerto del servidor
+	private final int PUERTO =61101;
+
+	//Id del cliente
+	private String id;
+
+
+	public Clientecopy(String pId) {
+
+		this.id= pId;
+	}
+
 
 	/**
 	 * Convierte en un arreglo de bits un archivo 
@@ -70,36 +86,11 @@ public class Clientecopy {
 	} 
 
 
-
-
-	/**
-	 * Main de la clase cliente 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-		//Host del servidor
-		final String HOST = "localhost";
-
-		//Puerto del servidor
-		final int PUERTO =61101;
+	public void EmpiezaEjecucion() {
 
 		//Meodos para ecribir y leer
 		PrintWriter out = null; 
 		BufferedReader in = null; 
-
-		//Id del cliente
-		String id=" ";
-
-		// Si este es el ultimo mensaje del fichero en cuestion o hay mas despues
-		boolean ultimoMensaje=true;
-
-		// Cuantos bytes son validos en el array de bytes
-		int bytesValidos=0;
-
-		//Array con bytes leidos del fichero
-		byte[] contenidoFichero = new byte[LONGITUD_MAXIMA];
-
 
 
 
@@ -113,13 +104,11 @@ public class Clientecopy {
 
 			// Leer del servidor 
 			in = new BufferedReader(new InputStreamReader( sc.getInputStream())); 
+			
 
-			//Lector
-			Scanner scaner = new Scanner(System.in);
-
-			//Se pregunta y envia a el servidor el id del cliente
-			System.out.println("Escriba el id del cliente (numero)");
-			id = scaner.nextLine();
+//			//Se pregunta y envia a el servidor el id del cliente
+//			System.out.println("Escriba el id del cliente (numero)");
+//			id = scaner.nextLine();
 			out.println(id);
 
 
@@ -155,154 +144,84 @@ public class Clientecopy {
 			line= in.readLine();
 			int numeroDeConexiones = Integer.parseInt(line);
 			System.out.println("recibo numeroDeConexiones: "+ numeroDeConexiones);
-			
+
 			//recibe el tamanoArchvio
 			line= in.readLine();
 			int tamanoArchvio = Integer.parseInt(line);
 			System.out.println("recibo tamanoArchvio: "+ tamanoArchvio);
-			
+
 			long startTime = System.currentTimeMillis();
 
 
 			String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
-			
-	        InputStream is;
-	        BufferedInputStream bis;
-	        FileOutputStream fos   ;
-	        BufferedOutputStream bos;
 
-	        
-	        try 
-	        {
-	            File output = new File(pathNuevoArchvio);
-	            is = sc.getInputStream();
-	            
-	            bis = new BufferedInputStream(is);
-	            fos = new FileOutputStream(output);
-	            bos = new BufferedOutputStream(fos);
-	            byte[] buffer = new byte[LONGITUD_MAXIMA];
-	            int data;
-	            
-	            while(true)
-	            {
-	                data = bis.read(buffer);
-	                System.out.println("data: "+data);
-	                
-	                if(data != -1)
-	                {
-	                	if(data==LONGITUD_MAXIMA) {
-		                	System.out.println("1");
-		                	bos.write(buffer, 0, LONGITUD_MAXIMA);
-	                	}
-	                	else {
-	                		System.out.println("2");
-	                		bos.write(buffer, 0, data);
-	                	}
-	                	
-	
-	                }
-	                else
-	                {
-	                	System.out.println("3");
-	                    bis.close();
-	                    bos.close();
-	                    break;
-	                }
-	            }
-	        } 
-	        catch (IOException ex) 
-	        {
-	            Logger.getLogger(Clientecopy.class.getName()).log(Level.SEVERE, null, ex);
-	        }
-
-//			// Se abre un fichero para empezar a copiar lo que se reciba.
-//			FileOutputStream fos = new FileOutputStream(pathNuevoArchvio);
-//
-//
-//			// Se crea un ObjectInputStream del socket para leer los mensajes
-//			// que contienen el fichero.
-//			ObjectInputStream ois = new ObjectInputStream(sc.getInputStream());
-//
-//
-//			//MetodoAuxiliarEnvioDeDatos mensajeRecibido;
-//			//Object mensajeAux;
-//
-//
-//			do
-//			{
-//				// Se lee el mensaje en una variabla auxiliar
-//					//mensajeAux = ois.readObject();
-////
-////					// Si es del tipo esperado, se trata
-////					if (mensajeAux instanceof MetodoAuxiliarEnvioDeDatos)
-//				
-////					{
-//					//mensajeRecibido = (MetodoAuxiliarEnvioDeDatos) mensajeAux;
-//
-//					//recibe el contenido fichero
-//					//
-//					try {
-//						String lin = (String) ois.readObject();
-//						
-//						System.out.println("\n"+"INICIO --------------------------------------");
-//						System.out.print(lin);
-//						System.out.println("\n"+"FIN --------------------------------------");
-//						
-//						//contenidoFichero = lin;
-//						//line =in.readLine();
-//						//System.out.println("recibo contenido Fichero: "+lin);
-//						
-//						//recibe los bytes validos
-//						line = (String) ois.readObject();//in.readLine();
-//						bytesValidos = Integer.parseInt(line);
-//						System.out.println("recibo bytesValidos: "+bytesValidos);
-//						
-//						
-//						//escribe
-//						//fos.write(contenidoFichero,0,bytesValidos);
-//
-//						
-//						//recibe el ultimo mensaje
-//						line =(String) ois.readObject();//in.readLine();
-//						ultimoMensaje = Boolean.parseBoolean(line);
-//						System.out.println("recibo ultimoMensaje: "+ultimoMensaje);
-//						
-//						
-//					} catch (ClassNotFoundException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//					
-//					
-//			} while (!ultimoMensaje);
-//
-//
-//
-//			// Se cierra socket y fichero
-//			fos.close();
-//			ois.close();
+			InputStream is;
+			BufferedInputStream bis;
+			FileOutputStream fos   ;
+			BufferedOutputStream bos;
 
 
-			File fichero = new File(pathNuevoArchvio);
+			try 
+			{
+				File output = new File(pathNuevoArchvio);
+				is = sc.getInputStream();
 
+				bis = new BufferedInputStream(is);
+				fos = new FileOutputStream(output);
+				bos = new BufferedOutputStream(fos);
+				byte[] buffer = new byte[LONGITUD_MAXIMA];
+				int data;
 
-			//Se verifica que el hash sea el mismo
-			String hashArchivoNuevo =  getHash(fichero);
-			System.out.println("Hash archivo recibido"+hashArchivoNuevo);
+				while(true)
+				{
+					data = bis.read(buffer);
+					
+					
+					//System.out.println("data: "+data);
 
-			if(!hashArchivoNuevo.equals(hashRecibido)) {
-				System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
-			}
-			else {
-				System.out.println("\n"+"EL VALOR CALCULADO PARA EL HASH DEL ARHCIVO ES CORRECTO"+"\n");
+					if(data != -1)
+					{
+						if(data==LONGITUD_MAXIMA) {
+							//System.out.println("1");
+							bos.write(buffer, 0, LONGITUD_MAXIMA);
+						}
+						else {
+							//System.out.println("2");
+							bos.write(buffer, 0, data);
+						}
+					}
+					else
+					{
+						//System.out.println("3");
+						
+						bis.close();
+						bos.close();
+						
+//						out = new PrintWriter( sc.getOutputStream(), true);
+//						in = new BufferedReader(new InputStreamReader( sc.getInputStream())); 
+//						
+						String resp = VerificarHash(hashRecibido, pathNuevoArchvio);
+//						out.println(resp);
+//						
+//						long endTime = System.currentTimeMillis() - startTime;
+//						out.println(endTime);
+//						System.out.println("Se demoro: "+endTime+" milisegundos en enviar el archivo");
+
+						
+						break;
+					}
+				}
+				
+				
+				
+				sc.close(); 
+			} 
+			catch (IOException ex) 
+			{
+				//Logger.getLogger(Clientecopy.class.getName()).log(Level.SEVERE, null, ex);
 			}
 
 
-
-			long endTime = System.currentTimeMillis() - startTime;
-			System.out.println("Se demoro: "+endTime+" milisegundos en enviar el archivo");
-
-			sc.close(); 
 
 
 
@@ -310,6 +229,60 @@ public class Clientecopy {
 
 			Logger.getLogger(Clientecopy.class.getName()).log(Level.SEVERE, null, ex);
 		}
+	}
+	
+	
+	/**
+	 * Metodo que verifica el funcionamiento correcto de la app
+	 * @param hashRecibido
+	 * @param pathNuevoArchvio
+	 */
+	public String VerificarHash(String hashRecibido, String pathNuevoArchvio) {
+		
+		String resp ="";
+		File fichero = new File(pathNuevoArchvio);
+
+		System.out.println("Tamano Fichero Transferido: "+fichero.length());
+		System.out.println("Tamano Fichero Transferido: "+fichero.getPath());
+		
+		
+		
+		
+		//Se verifica que el hash sea el mismo
+		String hashArchivoNuevo =  getHash(fichero);
+		System.out.println("Hash archivo recibido: "+hashArchivoNuevo);
+
+		if(!hashArchivoNuevo.equals(hashRecibido)) {
+			System.out.println("EL ARHCIVO NO ES CORRECTO!!!!");
+			resp="Error";
+		}
+		else {
+			System.out.println("\n"+"EL VALOR CALCULADO PARA EL HASH DEL ARHCIVO ES CORRECTO"+"\n");
+			resp="Correcto";
+		}
+		System.out.println("Envio Respuesta Hash: "+resp);
+		
+		return resp;
+		
+	}
+
+	
+
+	/**
+	 * Main de la clase cliente 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		Scanner scaner = new Scanner(System.in);
+		
+		//Se pregunta y envia a el servidor el id del cliente
+		System.out.println("Escriba el id del cliente (numero)");
+		String ClienteId = scaner.nextLine();
+		
+		Clientecopy cliente = new Clientecopy(ClienteId);
+		cliente.EmpiezaEjecucion();;
+
 
 	}
 
