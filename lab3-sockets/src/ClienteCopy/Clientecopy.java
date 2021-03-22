@@ -153,9 +153,9 @@ public class Clientecopy {
 			long startTime = System.currentTimeMillis();
 
 
-			//String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
+			String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
 
-			String pathNuevoArchvio ="/home/infracom/Lab3-infracom/lab3-sockets/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
+			//String pathNuevoArchvio ="/home/infracom/Lab3-infracom/lab3-sockets/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
 			
 			InputStream is;
 			BufferedInputStream bis;
