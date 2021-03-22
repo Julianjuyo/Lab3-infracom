@@ -31,13 +31,13 @@ public class Clientecopy {
 	//Id del cliente
 	private String id;
 	
-	private String rutaArchivos;
 
 
-	public Clientecopy(String pId, String rutaArchivos) {
+
+	public Clientecopy(String pId) {
 
 		this.id= pId;
-		this.rutaArchivos = rutaArchivos;
+
 	}
 
 
@@ -285,10 +285,8 @@ public class Clientecopy {
 		System.out.println("Escriba el id del cliente (numero)");
 		String ClienteId = scaner.nextLine();
 		
-		System.out.println("Ruta donde quiere guadar los archvios");
-		String rutaArchivos = scaner.nextLine();
 		
-		Clientecopy cliente = new Clientecopy(ClienteId,rutaArchivos);
+		Clientecopy cliente = new Clientecopy(ClienteId);
 		cliente.EmpiezaEjecucion();;
 
 
