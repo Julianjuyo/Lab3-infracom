@@ -30,11 +30,14 @@ public class Clientecopy {
 
 	//Id del cliente
 	private String id;
+	
+	private String rutaArchivos;
 
 
-	public Clientecopy(String pId) {
+	public Clientecopy(String pId, String rutaArchivos) {
 
 		this.id= pId;
+		this.rutaArchivos = rutaArchivos;
 	}
 
 
@@ -123,6 +126,7 @@ public class Clientecopy {
 			}
 			out.println("Listo");
 
+			long startTime = System.currentTimeMillis();
 
 
 			//Comienza Transferencia de Archivos
@@ -150,10 +154,10 @@ public class Clientecopy {
 			int tamanoArchvio = Integer.parseInt(line);
 			System.out.println("recibo tamanoArchvio: "+ tamanoArchvio);
 
-			long startTime = System.currentTimeMillis();
+			
 
 
-			String pathNuevoArchvio ="/Users/julianoliveros/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
+			String pathNuevoArchvio = "/Users/julianoliveros/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
 
 			//String pathNuevoArchvio ="/home/infracom/Lab3-infracom/lab3-sockets/ArchivosRecibidos/Cliente"+id+"-Prueba"+numeroDeConexiones+"."+tipoDeArchivo;
 			
@@ -205,7 +209,6 @@ public class Clientecopy {
 						String resp = VerificarHash(hashRecibido, pathNuevoArchvio);
 //						out.println(resp);
 //						
-//						long endTime = System.currentTimeMillis() - startTime;
 //						out.println(endTime);
 //						System.out.println("Se demoro: "+endTime+" milisegundos en enviar el archivo");
 
@@ -214,6 +217,9 @@ public class Clientecopy {
 					}
 				}
 				
+				
+				long endTime = System.currentTimeMillis() - startTime;
+				System.out.println("Se tardo:"+endTime);
 				
 				
 				sc.close(); 
@@ -279,7 +285,10 @@ public class Clientecopy {
 		System.out.println("Escriba el id del cliente (numero)");
 		String ClienteId = scaner.nextLine();
 		
-		Clientecopy cliente = new Clientecopy(ClienteId);
+		System.out.println("Ruta donde quiere guadar los archvios");
+		String rutaArchivos = scaner.nextLine();
+		
+		Clientecopy cliente = new Clientecopy(ClienteId,rutaArchivos);
 		cliente.EmpiezaEjecucion();;
 
 
