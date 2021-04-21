@@ -25,8 +25,8 @@ public class Servidorcopy {
 
 	//private final static String RUTA1="H:/Desktop/Laboratorio3TCP.pdf";
 
-	private final static String RUTA1="/home/infracom/Lab3-infracom/Archivos/250MB.zip";
-	private final static String RUTA2="/home/infracom/Lab3-infracom/Archivos/100MB.zip";
+	private final static String RUTA1="/home/ubuntu/1-Lab3-TCP/Lab3-infracom/Archivos/250MB.zip";
+	private final static String RUTA2="/home/ubuntu/1-Lab3-TCP/Lab3-infracom/Archivos/100MB.zip";
 	//private final static String RUTA1="/Users/julianoliveros/Public/hola.txt";
 	//private final static String RUTA1="/Users/julianoliveros/Public/matricula.pdf";
 	//private final static String RUTA2="/Users/julianoliveros/100MBcopy.zip";
