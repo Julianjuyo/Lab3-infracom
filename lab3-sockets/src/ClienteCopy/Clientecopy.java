@@ -22,7 +22,7 @@ public class Clientecopy {
 	public final static int LONGITUD_MAXIMA=1460;
 
 	//Host del servidor
-	private final String HOST = "172.31.23.169";
+	private final String HOST = "35.169.118.6";
 	//private final String HOST = "localhost";
 
 	//Puerto del servidor

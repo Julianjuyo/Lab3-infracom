@@ -185,7 +185,7 @@ public class Servidorcopy {
 			ArrayList<Peticion> Clientes = new ArrayList<>();
 			
 			int estado=0;
-			logger = new ServidorCopy.Logger(numeroConexiones, fichero.getName(), fichero.length());
+			//logger = new ServidorCopy.Logger(numeroConexiones, fichero.getName(), fichero.length());
 
 			long ini = System.currentMillis();
 
