@@ -49,6 +49,15 @@ public class Peticion extends Thread{
 		this.path= ppath;
 		this.numeroDeConexciones =  pnumeroDeConexciones;
 		this.tamanoArchvio= ptamanoArchvio;
+
+		String msg = "";
+		msg += "Petición creada:";
+		msg += "\n    Socket: " +sc;
+		msg += "\n    IdCliente : " +pidCliente;
+		msg += "\n    #Conexiones : " +pnumeroDeConexciones;
+		msg += "\n    Tamaño archivo : " +ptamanoArchvio;
+
+		Logger.log(msg);
 	}
 
 	public void run() 
@@ -148,26 +157,24 @@ public class Peticion extends Thread{
 						break;
 					}
 				}
-
+				Logger.log("Transferencia exitosa")
 
 			} 
 			catch (FileNotFoundException ex) 
 			{
+				Logger.log("Error: No se encontro el archivo")
 				//Logger.getLogger(Servidorcopy.class.getName()).log(Level.SEVERE, null, ex);
 			} 
 			catch (IOException ex) 
 			{
+				Logger.log("Error: Error en la entrada/salida del archivo")
 				//Logger.getLogger(Servidorcopy.class.getName()).log(Level.SEVERE, null, ex);
 			}
 
 
 			clienteSC.close();
 			System.out.println("Cliente desconectado");	
-
-
-
-
-		} 
+		}
 		catch (IOException e) { 
 			e.printStackTrace(); 
 		} 

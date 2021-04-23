@@ -121,6 +121,7 @@ public class Servidorcopy {
 
 				String Archivo = scaner.nextLine();
 
+
 				//Transferir archivo de 100MB
 				if(Archivo.equals("1")) {
 					ruta= RUTA1;
@@ -186,6 +187,8 @@ public class Servidorcopy {
 			int estado=0;
 			logger = new ServidorCopy.Logger(numeroConexiones, fichero.getName(), fichero.length());
 
+			long ini = System.currentMillis();
+
 
 			//While que se queda esperando a que lleguen clientes.
 			while (true) {
@@ -217,6 +220,12 @@ public class Servidorcopy {
 				}
 			}
 
+			String msg = "";
+			msg += "Transferencia de archivo exitosa: ";
+			msg += "\n    Clientes: " + numeroConexiones;
+			msg += "\n    Tiempo transferencia(ms): " + (System.currentMillis() - ini);
+
+			Logger.log(msg);
 			//imprime log
 		}
 		catch (IOException ex)
